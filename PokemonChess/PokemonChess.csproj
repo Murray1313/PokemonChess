@@ -1,0 +1,340 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{57BEC3FC-B203-429C-8122-066BE48F0F5B}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>PokemonChess</RootNamespace>
+    <AssemblyName>PokemonChess</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Caliburn.Micro, Version=3.0.1.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Caliburn.Micro.Core.3.0.1\lib\net45\Caliburn.Micro.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Caliburn.Micro.Platform, Version=3.0.1.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Caliburn.Micro.3.0.1\lib\net45\Caliburn.Micro.Platform.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Caliburn.Micro.Platform.Core, Version=3.0.1.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Caliburn.Micro.3.0.1\lib\net45\Caliburn.Micro.Platform.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Caliburn.Micro.3.0.1\lib\net45\System.Windows.Interactivity.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="AppBootstrapper.cs" />
+    <Compile Include="ViewModels\MenuViewModel.cs" />
+    <Compile Include="ViewModels\PieceDataViewModel.cs" />
+    <Compile Include="ViewModels\PokemonChessViewModel.cs" />
+    <Compile Include="ViewModels\SetupViewModel.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <AppDesigner Include="Properties\" />
+    <Resource Include="Styles\PokemonFont.ttf" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Styles\Buttons.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\ComboBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\Styles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MenuView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\PieceDataView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\PokemonChessView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SetupView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Entities\Entities.csproj">
+      <Project>{0fd4a171-6bfe-4a39-9ba4-a6a62864ee00}</Project>
+      <Name>Entities</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Lightwood.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\FirePokemon\Charizard.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\FirePokemon\Vulpix.png" />
+    <Resource Include="Images\FirePokemon\Ninetails.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\FirePokemon\Magmar.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\FirePokemon\Arcanine.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\GrassPokemon\Venusaur.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\GrassPokemon\Oddish.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\GrassPokemon\Vileplume.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\GrassPokemon\Victreebell.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\GrassPokemon\Exeggutor.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\GrassPokemon\Tangela.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\PoisonPokemon\Arbok.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\PoisonPokemon\Nidoqueen.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\PoisonPokemon\Nidoking.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\PoisonPokemon\Grimer.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\PoisonPokemon\Weezing.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\PoisonPokemon\Gengar.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\WaterPokemon\Blastoise.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\WaterPokemon\Golduck.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\WaterPokemon\Lapras.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\WaterPokemon\Poliwrath.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\WaterPokemon\Magikarp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\WaterPokemon\Seadra.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BlankSpace.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\FirePokemon\Rapidash.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\FirePokemon\VulpixPiece.png" />
+    <Resource Include="Images\FirePokemon\NinetailsPiece.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\FirePokemon\CharizardPiece.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\FirePokemon\RapidashPiece.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\FirePokemon\ArcaninePiece.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\FirePokemon\MagmarPiece.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\GrassPokemon\VenusaurPiece.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\GrassPokemon\TangelaPiece.png" />
+    <Resource Include="Images\GrassPokemon\OddishPiece.png" />
+    <Resource Include="Images\GrassPokemon\VileplumePiece.png" />
+    <Resource Include="Images\GrassPokemon\VictreebellPiece.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\PoisonPokemon\WeezingPiece.png" />
+    <Resource Include="Images\PoisonPokemon\ArbokPiece.png" />
+    <Resource Include="Images\PoisonPokemon\NidoqueenPiece.png" />
+    <Resource Include="Images\PoisonPokemon\NidokingPiece.png" />
+    <Resource Include="Images\PoisonPokemon\GrimerPiece.png" />
+    <Resource Include="Images\PoisonPokemon\GengarPiece.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\WaterPokemon\SeadraPiece.png" />
+    <Resource Include="Images\WaterPokemon\MagikarpPiece.png" />
+    <Resource Include="Images\WaterPokemon\LaprasPiece.png" />
+    <Resource Include="Images\WaterPokemon\GolduckPiece.png" />
+    <Resource Include="Images\WaterPokemon\PoliwrathPiece.png" />
+    <Resource Include="Images\WaterPokemon\BlastoisePiece.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\GrassPokemon\ExeggutorPiece.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\FirePokemon\Charizard.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\textBackground.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\65.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\pokemon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Chess.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Buttons\NewGameClick.png" />
+    <Resource Include="Images\Buttons\NewGameDefault.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Buttons\SetupDefault.png" />
+    <Resource Include="Images\Buttons\SetupClick.png" />
+    <Resource Include="Images\Buttons\ExitGameClick.png" />
+    <Resource Include="Images\Buttons\ExitGameDefault.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Buttons\MainMenuDefault.png" />
+    <Resource Include="Images\Buttons\MainMenuClick.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\150.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Buttons\SaveGameClick.png" />
+    <Resource Include="Images\Buttons\SaveGameDefault.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Buttons\CloseDefault.png" />
+    <Resource Include="Images\Buttons\CloseClick.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Fire.png" />
+    <Resource Include="Images\Grass.png" />
+    <Resource Include="Images\Poison.png" />
+    <Resource Include="Images\Water.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\ChessPieces\BlackBishop.PNG" />
+    <Resource Include="Images\ChessPieces\BlackKing.PNG" />
+    <Resource Include="Images\ChessPieces\BlackKnight.PNG" />
+    <Resource Include="Images\ChessPieces\BlackPawn.PNG" />
+    <Resource Include="Images\ChessPieces\BlackQueen.PNG" />
+    <Resource Include="Images\ChessPieces\BlackRook.PNG" />
+    <Resource Include="Images\ChessPieces\WhiteBishop.PNG" />
+    <Resource Include="Images\ChessPieces\WhiteKing.PNG" />
+    <Resource Include="Images\ChessPieces\WhiteKnight.PNG" />
+    <Resource Include="Images\ChessPieces\WhitePawn.PNG" />
+    <Resource Include="Images\ChessPieces\WhiteQueen.PNG" />
+    <Resource Include="Images\ChessPieces\WhiteRook.PNG" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

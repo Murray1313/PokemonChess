@@ -1,0 +1,19 @@
+﻿<UserControl x:Class="PokemonChess.Views.PieceDataView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+             xmlns:cal="http://www.caliburnproject.org"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="400">
+    <UserControl.Resources>
+        <ResourceDictionary Source="/PokemonChess;component/Styles/Styles.xaml" />
+    </UserControl.Resources>
+    <Grid>
+        <Image Source="/PokemonChess;component/Images/65.jpg" Stretch="UniformToFill" Opacity=".6" HorizontalAlignment="Right" Width="600"/>
+        <TextBox Name="ChessTextBox" Text="{Binding GameText}" Background="Transparent" BorderThickness="0" Foreground="#382716" FontSize="12" 
+                     Style="{DynamicResource PokemonTextPieceData}" IsReadOnly="True" Margin="4,0,0,0" TextWrapping="Wrap" 
+                     HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" VerticalScrollBarVisibility="Auto"/>
+    </Grid>
+</UserControl>

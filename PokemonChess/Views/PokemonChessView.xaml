@@ -12,6 +12,7 @@
       <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/PokemonChess;component/Styles/Buttons.xaml" />
         <ResourceDictionary Source="/PokemonChess;component/Styles/Styles.xaml" />
+        <ResourceDictionary Source="/PokemonChess;component/Styles/ChessPieceImage.xaml" />
         <ResourceDictionary>
           <Style x:Key="PieceBorders" TargetType="Border">
             <Setter Property="BorderThickness" Value="1" />
@@ -67,23 +68,25 @@
             <RowDefinition Height="224" />
             <RowDefinition Height="*" />
           </Grid.RowDefinitions>
-          <Image Grid.Row="0" Source="pack://application:,,,/Images/pokemon.png" Margin="2,-22,2,2" VerticalAlignment="Top" />
-          <Image Grid.Row="0" Source="pack://application:,,,/Images/Chess.png" Margin="0,104,0,0" Height="110" HorizontalAlignment="Right" VerticalAlignment="Top"/>
-          <Button Grid.Row="0"  Name="OpenMainMenu" Width="95" Style="{StaticResource MenuButtons}"  Margin="20,0,0,0"
-                            HorizontalAlignment="Left" VerticalAlignment="Bottom">
-            <Image>
-              <Image.Style>
-                <Style TargetType="Image">
-                  <Setter Property="Source" Value="pack://application:,,,/Images/Buttons/MainMenuDefault.png" />
-                  <Style.Triggers>
-                    <Trigger Property="IsMouseOver" Value="true">
-                      <Setter Property="Source" Value="pack://application:,,,/Images/Buttons/MainMenuClick.png" />
-                    </Trigger>
-                  </Style.Triggers>
-                </Style>
-              </Image.Style>
-            </Image>
-          </Button>
+          <Grid Grid.Row="0">
+            <Image Source="pack://application:,,,/Images/pokemon.png" Margin="2,-24,2,2" VerticalAlignment="Top" />
+            <Image Source="pack://application:,,,/Images/Chess.png" Margin="0,104,0,0" Height="110" HorizontalAlignment="Right" VerticalAlignment="Top"/>
+            <Button Name="OpenMainMenu" Style="{StaticResource MenuButtons}" Margin="20,0,0,0"
+                    Width="95" HorizontalAlignment="Left" VerticalAlignment="Bottom">
+              <Image>
+                <Image.Style>
+                  <Style TargetType="Image">
+                    <Setter Property="Source" Value="pack://application:,,,/Images/Buttons/MainMenuDefault.png" />
+                    <Style.Triggers>
+                      <Trigger Property="IsMouseOver" Value="true">
+                        <Setter Property="Source" Value="pack://application:,,,/Images/Buttons/MainMenuClick.png" />
+                      </Trigger>
+                    </Style.Triggers>
+                  </Style>
+                </Image.Style>
+              </Image>
+            </Button>
+          </Grid>
           <Border Grid.Row="1" BorderBrush="#382716" BorderThickness="2">
             <Grid Background="#5A4D29">
               <Grid.ColumnDefinitions>
@@ -96,98 +99,7 @@
                   <TextBlock Text="{Binding CurrentGame.DisplaySelectedPieceTitle, UpdateSourceTrigger=PropertyChanged}" Style="{DynamicResource PokemonText}" 
                                                FontWeight="Bold" FontSize="10" Height="25" Margin="4,9,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
                   <Image Height="200" Width="200" Source="{Binding CurrentGame.SelectedPiece.MainPath}" VerticalAlignment="Bottom"/>
-                  <Image Height="25" Width="25" Margin="0,1,1,0" HorizontalAlignment="Right" VerticalAlignment="Top">
-                    <Image.Style>
-                      <Style TargetType="Image">
-                        <Style.Triggers>
-                          <MultiDataTrigger>
-                            <MultiDataTrigger.Conditions>
-                              <Condition Binding="{Binding CurrentGame.SelectedPiece.Side}" Value="2" />
-                              <Condition Binding="{Binding CurrentGame.SelectedPiece.ChessPieceType}" Value="1" />
-                            </MultiDataTrigger.Conditions>
-                            <Setter Property="Source" Value="pack://application:,,,/Images/ChessPieces/BlackKing.PNG" />
-                          </MultiDataTrigger>
-                          <MultiDataTrigger>
-                            <MultiDataTrigger.Conditions>
-                              <Condition Binding="{Binding CurrentGame.SelectedPiece.Side}" Value="2" />
-                              <Condition Binding="{Binding CurrentGame.SelectedPiece.ChessPieceType}" Value="2" />
-                            </MultiDataTrigger.Conditions>
-                            <Setter Property="Source" Value="pack://application:,,,/Images/ChessPieces/BlackQueen.PNG" />
-                          </MultiDataTrigger>
-                          <MultiDataTrigger>
-                            <MultiDataTrigger.Conditions>
-                              <Condition Binding="{Binding CurrentGame.SelectedPiece.Side}" Value="2" />
-                              <Condition Binding="{Binding CurrentGame.SelectedPiece.ChessPieceType}" Value="3" />
-                            </MultiDataTrigger.Conditions>
-                            <Setter Property="Source" Value="pack://application:,,,/Images/ChessPieces/BlackRook.PNG" />
-                          </MultiDataTrigger>
-                          <MultiDataTrigger>
-                            <MultiDataTrigger.Conditions>
-                              <Condition Binding="{Binding CurrentGame.SelectedPiece.Side}" Value="2" />
-                              <Condition Binding="{Binding CurrentGame.SelectedPiece.ChessPieceType}" Value="4" />
-                            </MultiDataTrigger.Conditions>
-                            <Setter Property="Source" Value="pack://application:,,,/Images/ChessPieces/BlackBishop.PNG" />
-                          </MultiDataTrigger>
-                          <MultiDataTrigger>
-                            <MultiDataTrigger.Conditions>
-                              <Condition Binding="{Binding CurrentGame.SelectedPiece.Side}" Value="2" />
-                              <Condition Binding="{Binding CurrentGame.SelectedPiece.ChessPieceType}" Value="5" />
-                            </MultiDataTrigger.Conditions>
-                            <Setter Property="Source" Value="pack://application:,,,/Images/ChessPieces/BlackKnight.PNG" />
-                          </MultiDataTrigger>
-                          <MultiDataTrigger>
-                            <MultiDataTrigger.Conditions>
-                              <Condition Binding="{Binding CurrentGame.SelectedPiece.Side}" Value="2" />
-                              <Condition Binding="{Binding CurrentGame.SelectedPiece.ChessPieceType}" Value="6" />
-                            </MultiDataTrigger.Conditions>
-                            <Setter Property="Source" Value="pack://application:,,,/Images/ChessPieces/BlackPawn.PNG" />
-                          </MultiDataTrigger>
-                          <MultiDataTrigger>
-                            <MultiDataTrigger.Conditions>
-                              <Condition Binding="{Binding CurrentGame.SelectedPiece.Side}" Value="1" />
-                              <Condition Binding="{Binding CurrentGame.SelectedPiece.ChessPieceType}" Value="1" />
-                            </MultiDataTrigger.Conditions>
-                            <Setter Property="Source" Value="pack://application:,,,/Images/ChessPieces/WhiteKing.PNG" />
-                          </MultiDataTrigger>
-                          <MultiDataTrigger>
-                            <MultiDataTrigger.Conditions>
-                              <Condition Binding="{Binding CurrentGame.SelectedPiece.Side}" Value="1" />
-                              <Condition Binding="{Binding CurrentGame.SelectedPiece.ChessPieceType}" Value="2" />
-                            </MultiDataTrigger.Conditions>
-                            <Setter Property="Source" Value="pack://application:,,,/Images/ChessPieces/WhiteQueen.PNG" />
-                          </MultiDataTrigger>
-                          <MultiDataTrigger>
-                            <MultiDataTrigger.Conditions>
-                              <Condition Binding="{Binding CurrentGame.SelectedPiece.Side}" Value="1" />
-                              <Condition Binding="{Binding CurrentGame.SelectedPiece.ChessPieceType}" Value="3" />
-                            </MultiDataTrigger.Conditions>
-                            <Setter Property="Source" Value="pack://application:,,,/Images/ChessPieces/WhiteRook.PNG" />
-                          </MultiDataTrigger>
-                          <MultiDataTrigger>
-                            <MultiDataTrigger.Conditions>
-                              <Condition Binding="{Binding CurrentGame.SelectedPiece.Side}" Value="1" />
-                              <Condition Binding="{Binding CurrentGame.SelectedPiece.ChessPieceType}" Value="4" />
-                            </MultiDataTrigger.Conditions>
-                            <Setter Property="Source" Value="pack://application:,,,/Images/ChessPieces/WhiteBishop.PNG" />
-                          </MultiDataTrigger>
-                          <MultiDataTrigger>
-                            <MultiDataTrigger.Conditions>
-                              <Condition Binding="{Binding CurrentGame.SelectedPiece.Side}" Value="1" />
-                              <Condition Binding="{Binding CurrentGame.SelectedPiece.ChessPieceType}" Value="5" />
-                            </MultiDataTrigger.Conditions>
-                            <Setter Property="Source" Value="pack://application:,,,/Images/ChessPieces/WhiteKnight.PNG" />
-                          </MultiDataTrigger>
-                          <MultiDataTrigger>
-                            <MultiDataTrigger.Conditions>
-                              <Condition Binding="{Binding CurrentGame.SelectedPiece.Side}" Value="1" />
-                              <Condition Binding="{Binding CurrentGame.SelectedPiece.ChessPieceType}" Value="6" />
-                            </MultiDataTrigger.Conditions>
-                            <Setter Property="Source" Value="pack://application:,,,/Images/ChessPieces/WhitePawn.PNG" />
-                          </MultiDataTrigger>
-                        </Style.Triggers>
-                      </Style>
-                    </Image.Style>
-                  </Image>
+                  <Image Height="25" Width="25" Margin="0,1,1,0"  Style="{StaticResource ChessPieceImage}" HorizontalAlignment="Right" VerticalAlignment="Top" />
                 </Grid>
               </Border>
             </Grid>
@@ -248,7 +160,7 @@
               <TextBlock Grid.Row="7" Grid.Column="0" Text=" 2 " Style="{StaticResource ChessLetters}" Margin="0,4,0,4"/>
               <TextBlock Grid.Row="8" Grid.Column="0" Text=" 1 " Style="{StaticResource ChessLetters}" Margin="0,4,0,4"/>
 
-
+              
               <Grid Grid.Row="1" Grid.Column="1" DataContext="{Binding CurrentGame.GameBoard.BoardPieces[0]}" Style="{StaticResource LightSpaces}">
                 <Grid.RowDefinitions>
                   <RowDefinition Height="*"/>

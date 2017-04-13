@@ -14,9 +14,9 @@
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
                     <Border TextBlock.Foreground="{TemplateBinding Foreground}"
-                x:Name="Border"
-                CornerRadius="2"
-                BorderThickness="0">
+                            x:Name="Border"
+                            CornerRadius="2"
+                            BorderThickness="0">
                         <Border.BorderBrush>
                             <LinearGradientBrush StartPoint="0,0"
                                  EndPoint="0,1">

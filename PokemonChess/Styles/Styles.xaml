@@ -3,65 +3,37 @@
                     xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
                     xmlns:sys="clr-namespace:System;assembly=mscorlib"
                     xmlns:vsm="clr-namespace:System.Windows;assembly=PresentationFramework"
-                    xmlns:cal="http://www.caliburnproject.org">
+                    xmlns:cal="http://www.caliburnproject.org"
+                    xmlns:converters="clr-namespace:PokemonChess.Converters">
 
-    <Style x:Key="ChessLetters" TargetType="TextBlock">
-        <Setter Property="FontFamily" Value="Trebuchet MS" />
-        <Setter Property="FontSize" Value="7" />
-        <Setter Property="Foreground" Value="#382716" />
-        <Setter Property="HorizontalAlignment" Value="Center" />
-        <Setter Property="VerticalAlignment" Value="Center" />
-    </Style>
-    
-    
-    <Style x:Key="PieceStyle" TargetType="Image">
-        <Setter Property="HorizontalAlignment" Value="Stretch" />
-        <Setter Property="cal:Message.Attach" Value="[Event PreviewMouseLeftButtonDown] = [Action DragMove($source, $dataContext)]" />
-        <Style.Triggers>
-            <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Cursor" Value="Hand" />
-            </Trigger>
-        </Style.Triggers>
-    </Style>
+  <Style x:Key="ChessLetters" TargetType="TextBlock">
+    <Setter Property="FontFamily" Value="Trebuchet MS" />
+    <Setter Property="FontSize" Value="7" />
+    <Setter Property="Foreground" Value="#382716" />
+    <Setter Property="HorizontalAlignment" Value="Center" />
+    <Setter Property="VerticalAlignment" Value="Center" />
+  </Style>
 
-    <Style x:Key="BoardSpaces" TargetType="Grid">
-        <Setter Property="Width" Value="{Binding RelativeSource={RelativeSource Self}, Path=ActualHeight}" />
-        <Setter Property="cal:Message.Attach" Value="[Event PreviewMouseDown] = [Action SelectSpace($dataContext)]" />
-        <Style.Triggers>
-            <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="#FF7575"></Setter>
-            </Trigger>
-        </Style.Triggers>
-    </Style>
-    
-    <Style x:Key="DarkSpaces" BasedOn="{StaticResource BoardSpaces}" TargetType="Grid">
-        <Setter Property="Background" Value="#312214" />
-    </Style>
-    <Style x:Key="LightSpaces" BasedOn="{StaticResource BoardSpaces}" TargetType="Grid">
-        <Setter Property="Background" Value="AntiqueWhite" />
-    </Style>
-
-
-    <Style x:Key="ScrollBarLineButton" TargetType="{x:Type RepeatButton}">
-        <Setter Property="Focusable" Value="false"/>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type RepeatButton}">
-                    <Border x:Name="RepeatButtonBorder" 
+  <Style x:Key="ScrollBarLineButton" TargetType="{x:Type RepeatButton}">
+    <Setter Property="Focusable" Value="false"/>
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="{x:Type RepeatButton}">
+          <Border x:Name="RepeatButtonBorder" 
                     CornerRadius="0" 
                     BorderThickness="0" 
                     RenderTransformOrigin="0.5,0.5" 
                     BorderBrush="Transparent">
-                        <Border Background="Transparent"  
+            <Border Background="Transparent"  
                     CornerRadius="0" 
                     x:Name="background">
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="0.4*"/>
-                                    <RowDefinition Height="0.6*"/>
-                                </Grid.RowDefinitions>
+              <Grid>
+                <Grid.RowDefinitions>
+                  <RowDefinition Height="0.4*"/>
+                  <RowDefinition Height="0.6*"/>
+                </Grid.RowDefinitions>
 
-                                <Path Grid.RowSpan="2"
+                <Path Grid.RowSpan="2"
                       x:Name="Thumb" 
                       Data="{Binding Path=Content, RelativeSource={RelativeSource TemplatedParent}}"
                       Fill="#382716"
@@ -69,147 +41,147 @@
                       Margin="4"
                       Stretch="UniformToFill"
                       VerticalAlignment="Center"/>
-                            </Grid>
-                        </Border>
-                        <vsm:VisualStateManager.VisualStateGroups>
-                            <vsm:VisualStateGroup x:Name="CommonStates">
-                                <vsm:VisualState x:Name="Normal" />
-                                <vsm:VisualState x:Name="MouseOver">
-                                    <Storyboard>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Thumb" Storyboard.TargetProperty="Fill">
-                                            <DiscreteObjectKeyFrame KeyTime="0:0:0">
-                                                <DiscreteObjectKeyFrame.Value>
-                                                    <SolidColorBrush Color="#1DB3E7" />
-                                                </DiscreteObjectKeyFrame.Value>
-                                            </DiscreteObjectKeyFrame>
-                                        </ObjectAnimationUsingKeyFrames>
-                                    </Storyboard>
-                                </vsm:VisualState>
-                                <vsm:VisualState x:Name="Pressed">
-                                    <Storyboard>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Thumb" Storyboard.TargetProperty="Fill">
-                                            <DiscreteObjectKeyFrame KeyTime="0:0:0">
-                                                <DiscreteObjectKeyFrame.Value>
-                                                    <SolidColorBrush Color="Blue" />
-                                                </DiscreteObjectKeyFrame.Value>
-                                            </DiscreteObjectKeyFrame>
-                                        </ObjectAnimationUsingKeyFrames>
-                                    </Storyboard>
-                                </vsm:VisualState>
-                            </vsm:VisualStateGroup>
-                        </vsm:VisualStateManager.VisualStateGroups>
-                    </Border>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
+              </Grid>
+            </Border>
+            <vsm:VisualStateManager.VisualStateGroups>
+              <vsm:VisualStateGroup x:Name="CommonStates">
+                <vsm:VisualState x:Name="Normal" />
+                <vsm:VisualState x:Name="MouseOver">
+                  <Storyboard>
+                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Thumb" Storyboard.TargetProperty="Fill">
+                      <DiscreteObjectKeyFrame KeyTime="0:0:0">
+                        <DiscreteObjectKeyFrame.Value>
+                          <SolidColorBrush Color="#1DB3E7" />
+                        </DiscreteObjectKeyFrame.Value>
+                      </DiscreteObjectKeyFrame>
+                    </ObjectAnimationUsingKeyFrames>
+                  </Storyboard>
+                </vsm:VisualState>
+                <vsm:VisualState x:Name="Pressed">
+                  <Storyboard>
+                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Thumb" Storyboard.TargetProperty="Fill">
+                      <DiscreteObjectKeyFrame KeyTime="0:0:0">
+                        <DiscreteObjectKeyFrame.Value>
+                          <SolidColorBrush Color="Blue" />
+                        </DiscreteObjectKeyFrame.Value>
+                      </DiscreteObjectKeyFrame>
+                    </ObjectAnimationUsingKeyFrames>
+                  </Storyboard>
+                </vsm:VisualState>
+              </vsm:VisualStateGroup>
+            </vsm:VisualStateManager.VisualStateGroups>
+          </Border>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
 
-    <Style x:Key="ScrollBarPageButton" TargetType="{x:Type RepeatButton}">
-        <Setter Property="IsTabStop" Value="false"/>
-        <Setter Property="Focusable" Value="false"/>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type RepeatButton}">
-                    <Border Background="Transparent" />
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
+  <Style x:Key="ScrollBarPageButton" TargetType="{x:Type RepeatButton}">
+    <Setter Property="IsTabStop" Value="false"/>
+    <Setter Property="Focusable" Value="false"/>
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="{x:Type RepeatButton}">
+          <Border Background="Transparent" />
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
 
-    <Style x:Key="ScrollBarThumb" TargetType="{x:Type Thumb}">
-        <Setter Property="IsTabStop" Value="false"/>
-        <Setter Property="Focusable" Value="false"/>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type Thumb}">
-                    <Border x:Name="Border" 
+  <Style x:Key="ScrollBarThumb" TargetType="{x:Type Thumb}">
+    <Setter Property="IsTabStop" Value="false"/>
+    <Setter Property="Focusable" Value="false"/>
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="{x:Type Thumb}">
+          <Border x:Name="Border" 
                           CornerRadius="0" 
                           BorderThickness="4,4,4,4" 
                           BorderBrush="Transparent">
-                        <Border Background="#382716" CornerRadius="0" Margin="0,0,0,0" x:Name="background" />
-                    </Border>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
+            <Border Background="#382716" CornerRadius="0" Margin="0,0,0,0" x:Name="background" />
+          </Border>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
 
-    <ControlTemplate x:Key="VerticalScrollBar" TargetType="{x:Type ScrollBar}">
-        <Grid Width="20">
-            <Grid.RowDefinitions>
-                <RowDefinition MaxHeight="18"/>
-                <RowDefinition Height="0.00001*"/>
-                <RowDefinition MaxHeight="18"/>
-            </Grid.RowDefinitions>
-            <Border Grid.RowSpan="3" CornerRadius="0" Background="Transparent" />
-            <RepeatButton Grid.Row="0" 
+  <ControlTemplate x:Key="VerticalScrollBar" TargetType="{x:Type ScrollBar}">
+    <Grid Width="20">
+      <Grid.RowDefinitions>
+        <RowDefinition MaxHeight="18"/>
+        <RowDefinition Height="0.00001*"/>
+        <RowDefinition MaxHeight="18"/>
+      </Grid.RowDefinitions>
+      <Border Grid.RowSpan="3" CornerRadius="0" Background="Transparent" />
+      <RepeatButton Grid.Row="0" 
               Command="ScrollBar.LineUpCommand"
               Style="{StaticResource ScrollBarLineButton}"
               Content="M 0 4 L 8 4 L 4 0 Z" />
-            <Track Name="PART_Track" Grid.Row="1" IsDirectionReversed="true">
-                <Track.DecreaseRepeatButton>
-                    <RepeatButton Style="{StaticResource ScrollBarPageButton}" 
+      <Track Name="PART_Track" Grid.Row="1" IsDirectionReversed="true">
+        <Track.DecreaseRepeatButton>
+          <RepeatButton Style="{StaticResource ScrollBarPageButton}" 
                         Command="ScrollBar.PageUpCommand" />
-                </Track.DecreaseRepeatButton>
-                <Track.Resources>
-                    <!-- Thumb's minimum height is half of this metric -->
-                    <sys:Double x:Key="{x:Static 
+        </Track.DecreaseRepeatButton>
+        <Track.Resources>
+          <!-- Thumb's minimum height is half of this metric -->
+          <sys:Double x:Key="{x:Static 
                               SystemParameters.VerticalScrollBarButtonHeightKey}">
-                        20
-                    </sys:Double>
-                </Track.Resources>
-                <Track.Thumb>
-                    <Thumb Style="{StaticResource ScrollBarThumb}" />
-                </Track.Thumb>
-                <Track.IncreaseRepeatButton>
-                    <RepeatButton Style="{StaticResource ScrollBarPageButton}" 
+            20
+          </sys:Double>
+        </Track.Resources>
+        <Track.Thumb>
+          <Thumb Style="{StaticResource ScrollBarThumb}" />
+        </Track.Thumb>
+        <Track.IncreaseRepeatButton>
+          <RepeatButton Style="{StaticResource ScrollBarPageButton}" 
                         Command="ScrollBar.PageDownCommand" />
-                </Track.IncreaseRepeatButton>
-            </Track>
-            <RepeatButton Grid.Row="3"
+        </Track.IncreaseRepeatButton>
+      </Track>
+      <RepeatButton Grid.Row="3"
               Style="{StaticResource ScrollBarLineButton}"
               Command="ScrollBar.LineDownCommand"
               Content="M 0 0 L 4 4 L 8 0 Z"/>
-        </Grid>
-    </ControlTemplate>
+    </Grid>
+  </ControlTemplate>
 
 
-    <Style x:Key="MyScrollBar" TargetType="{x:Type ScrollBar}">
-        <Setter Property="OverridesDefaultStyle" Value="true"/>
-        <Style.Triggers>
-            <Trigger Property="Orientation" Value="Vertical">
-                <Setter Property="Width" Value="22"/>
-                <Setter Property="Height" Value="Auto" />
-                <Setter Property="Template" Value="{StaticResource VerticalScrollBar}" />
-            </Trigger>
-        </Style.Triggers>
-    </Style>
+  <Style x:Key="MyScrollBar" TargetType="{x:Type ScrollBar}">
+    <Setter Property="OverridesDefaultStyle" Value="true"/>
+    <Style.Triggers>
+      <Trigger Property="Orientation" Value="Vertical">
+        <Setter Property="Width" Value="22"/>
+        <Setter Property="Height" Value="Auto" />
+        <Setter Property="Template" Value="{StaticResource VerticalScrollBar}" />
+      </Trigger>
+    </Style.Triggers>
+  </Style>
 
 
-    <Style x:Key="PokemonText">
-        <Setter Property="TextElement.FontFamily" Value="/PokemonChess;component/Styles/#Pokemon GB"/>
-    </Style>
+  <Style x:Key="PokemonText">
+    <Setter Property="TextElement.FontFamily" Value="/PokemonChess;component/Styles/#Pokemon GB"/>
+  </Style>
 
-    <Style x:Key="PokemonTextPieceData" TargetType="{x:Type TextBox}" BasedOn="{StaticResource PokemonText}">
-        <Setter Property="Visibility" Value="Visible" />
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type TextBox}">
-                    <Border BorderBrush="Transparent" 
+  <Style x:Key="PokemonTextPieceData" TargetType="{x:Type TextBox}" BasedOn="{StaticResource PokemonText}">
+    <Setter Property="Visibility" Value="Visible" />
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="{x:Type TextBox}">
+          <Border BorderBrush="Transparent" 
                           Background="Transparent" 
                           BorderThickness="0" 
                           CornerRadius="0">
-                        <ScrollViewer x:Name="PART_ContentHost" Margin="0" Focusable="false"
+            <ScrollViewer x:Name="PART_ContentHost" Margin="0" Focusable="false"
                           Background="{x:Null}"
                           HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                           VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                           TextElement.Foreground="{TemplateBinding Foreground}">
-                            <ScrollViewer.Resources>
-                                <Style BasedOn="{StaticResource MyScrollBar}" TargetType="{x:Type ScrollBar}" />
-                            </ScrollViewer.Resources>
-                        </ScrollViewer>
-                    </Border>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
+              <ScrollViewer.Resources>
+                <Style BasedOn="{StaticResource MyScrollBar}" TargetType="{x:Type ScrollBar}" />
+              </ScrollViewer.Resources>
+            </ScrollViewer>
+          </Border>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
 </ResourceDictionary>

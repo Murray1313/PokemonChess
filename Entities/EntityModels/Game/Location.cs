@@ -22,7 +22,13 @@ namespace Entities
 
 
     public SharedEnums.Enums.BoardRows XCoord { get; set; }
+    //public int BoardRow { get { return ((int)XCoord + 1); ; } }
     public SharedEnums.Enums.BoardColumns YCoord { get; set; }
+    //public int BoardColumn { get { return ((int)YCoord + 1); } }
     public int ArraySpotInt { get { return (((int)XCoord * 8) + (int)YCoord); } }
-  }
+
+    // Properties used in the drawing of the Canvas.
+    public Double LeftLocationModifier { get { return ((int)XCoord * .125); } }
+    public Double TopLocationModifier { get { return ((int)YCoord * .125); } }
+    }
 }

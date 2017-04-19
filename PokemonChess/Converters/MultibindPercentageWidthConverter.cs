@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using System.Windows;
 using System.Windows.Data;
 
 namespace PokemonChess.Converters
@@ -8,7 +9,11 @@ namespace PokemonChess.Converters
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            return System.Convert.ToDouble(values[0]) * System.Convert.ToDouble(values[1]);
+            if (values[1] != null && values[1] != DependencyProperty.UnsetValue)
+            {
+                return System.Convert.ToDouble(values[0]) * System.Convert.ToDouble(values[1]);
+            }
+            return 0.0;
         }
 
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)

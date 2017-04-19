@@ -12,7 +12,7 @@ using Entities.Interfaces;
 using System.Windows.Controls;
 using Entities.EntityModels.Pieces;
 using System.Windows;
-using Entities.EntityModels.PokemonPieces;
+using Entities.EntityModels.Pieces.PokemonPieces;
 using System.Windows.Media.Imaging;
 
 namespace PokemonChess.ViewModels

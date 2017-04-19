@@ -1,13 +1,11 @@
 ﻿using Entities;
 using Entities.EntityModels.Pieces;
-using Entities.EntityModels.PokemonPieces;
+using Entities.EntityModels.Pieces.PokemonPieces;
 using Entities.Interfaces;
 using Entities.SharedEnums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PokemonChess
 {

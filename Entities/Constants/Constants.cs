@@ -9,7 +9,6 @@ using System.Windows.Media.Imaging;
 namespace Entities.Constants
 {
 
-
   #region FileSuffixes
   public static class FileSuffixes
   {

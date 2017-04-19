@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Caliburn.Micro;
-using Entities.EntityModels.PokemonPieces;
+using Entities.EntityModels.Pieces.PokemonPieces;
 using Entities.EntityModels.Pieces;
 using PokemonChess;
 

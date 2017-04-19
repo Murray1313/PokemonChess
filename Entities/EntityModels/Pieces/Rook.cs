@@ -6,11 +6,23 @@ using System.Text;
 using System.Threading.Tasks;
 using Caliburn.Micro;
 using PokemonChess;
+using Entities.SharedEnums;
 
 namespace Entities.EntityModels.Pieces
 {
-  public class Rook : PropertyChangedBase, IMoveMechanics
+  public abstract class Rook : ChessPiece, IMoveMechanics
   {
+    public Rook(Enums.BlackOrWhite teamSide, int arrayLocation) : base(teamSide, arrayLocation) { }
+
+    public Rook(Enums.BlackOrWhite teamSide, Enums.BoardColumns pieceSide) : base(teamSide)
+    {
+      this.Location = (this.Side == Enums.BlackOrWhite.White) ? new Location(Enums.BoardRows.Eight, pieceSide)
+                                                              : new Location(Enums.BoardRows.One, pieceSide);
+    }
+
+    public override Enums.Pieces ChessPieceType { get { return Enums.Pieces.Rook; } }
+
+    #region IMoveMech implementation
     public IEnumerable<Location> GetRooksConquerableSpaces(Board board, IPiece piece)
     {
       List<Location> returnList = new List<Location>();
@@ -28,5 +40,6 @@ namespace Entities.EntityModels.Pieces
       General.RecursiveSetRight(board, piece.Location, piece.Side);
       General.RecursiveSetDown(board, piece.Location, piece.Side);
     }
+    #endregion
   }
 }

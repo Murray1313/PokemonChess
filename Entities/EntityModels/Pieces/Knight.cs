@@ -5,11 +5,23 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Caliburn.Micro;
+using Entities.SharedEnums;
 
 namespace Entities.EntityModels.Pieces
 {
-  public class Knight : PropertyChangedBase, IMoveMechanics
+  public abstract class Knight : ChessPiece, IMoveMechanics
   {
+    public Knight(Enums.BlackOrWhite teamSide, int arrayLocation) : base(teamSide, arrayLocation) { }
+
+    public Knight(Enums.BlackOrWhite teamSide, Enums.BoardColumns pieceSide) : base(teamSide)
+    {
+      this.Location = (this.Side == Enums.BlackOrWhite.White) ? new Location(Enums.BoardRows.Eight, pieceSide)
+                                                              : new Location(Enums.BoardRows.One, pieceSide);
+    }
+
+    public override Enums.Pieces ChessPieceType { get { return Enums.Pieces.Knight; } }
+
+    #region IMoveMech
     public IEnumerable<Location> GetKnightsConquerableSpaces(Board board, IPiece piece)
     {
       List<Location> returnList = new List<Location>();
@@ -123,5 +135,6 @@ namespace Entities.EntityModels.Pieces
         }
       }
     }
+    #endregion
   }
 }

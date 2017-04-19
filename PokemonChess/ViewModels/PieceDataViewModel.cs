@@ -15,12 +15,8 @@ namespace PokemonChess.ViewModels
 
     private string _gameText = string.Empty;
 
-
     [ImportingConstructor]
-    public PieceDataViewModel()
-    {
-    }
-
+    public PieceDataViewModel() { }
 
     public string GameText
     {

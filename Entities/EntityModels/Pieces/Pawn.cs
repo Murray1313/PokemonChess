@@ -1,15 +1,30 @@
-﻿using Entities.Interfaces;
+﻿using Entities.EntityModels;
+using Entities.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Caliburn.Micro;
+using Entities.SharedEnums;
 
 namespace Entities.EntityModels.Pieces
 {
-  public class Pawn : PropertyChangedBase, IMoveMechanics
+  public abstract class Pawn : ChessPiece, IMoveMechanics
   {
+
+    #region Constructor
+
+    public Pawn(Enums.BlackOrWhite teamSide, int arrayLocation) : base(teamSide, arrayLocation) { }
+
+    public Pawn(Enums.BlackOrWhite teamSide, Enums.BoardColumns pieceSide) : base(teamSide)
+    {
+      this.Location = (this.Side == Enums.BlackOrWhite.White) ? new Location(Enums.BoardRows.Seven, pieceSide)
+                                                              : new Location(Enums.BoardRows.Two, pieceSide);
+    }
+
+    #endregion
+
+    public override Enums.Pieces ChessPieceType { get { return Enums.Pieces.Pawn; } }
+
+
+    #region IMoveMechs implementation
     public IEnumerable<Location> GetPawnsConquerableSpaces(Board board, IPiece piece)
     {
       List<Location> returnList = new List<Location>();
@@ -115,5 +130,6 @@ namespace Entities.EntityModels.Pieces
         }
       }
     }
+    #endregion
   }
 }

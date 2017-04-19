@@ -1,16 +1,23 @@
 ﻿using Entities.Interfaces;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Caliburn.Micro;
 using PokemonChess;
+using Entities.SharedEnums;
 
 namespace Entities.EntityModels.Pieces
 {
-  public class King : PropertyChangedBase, IMoveMechanics
+  public abstract class King : ChessPiece, IMoveMechanics
   {
+    public King(Enums.BlackOrWhite teamSide, int arrayLocation) : base(teamSide, arrayLocation) { }
+
+    public King(Enums.BlackOrWhite teamSide) : base(teamSide)
+    {
+      this.Location = (this.Side == Enums.BlackOrWhite.White) ? new Location(Enums.BoardRows.Eight, Enums.BoardColumns.E)
+                                                              : new Location(Enums.BoardRows.One, Enums.BoardColumns.E);
+    }
+
+    public override Enums.Pieces ChessPieceType { get { return Enums.Pieces.King; } }
+
+    #region IMoveMech implementation
     public IEnumerable<Location> GetKingMovableSpaces(Board board, IPiece piece)
     {
       List<Location> returnList = new List<Location>();
@@ -36,5 +43,6 @@ namespace Entities.EntityModels.Pieces
       General.SetLowerLeft(board, piece.Location, piece.Side);
       General.SetLowerRight(board, piece.Location, piece.Side);
     }
+    #endregion
   }
 }

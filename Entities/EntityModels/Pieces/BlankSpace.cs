@@ -13,6 +13,7 @@ namespace Entities.EntityModels.Pieces
     #region
     private bool _isSelected = false;
     private bool _isMovableSpace = false;
+    private Location _location;
     #endregion
 
 
@@ -59,7 +60,15 @@ namespace Entities.EntityModels.Pieces
       }
     }
 
-    public Location Location { get; set; }
+    public Location Location
+    {
+      get { return _location; }
+      set
+      {
+        _location = value;
+        NotifyOfPropertyChange(() => Location);
+      }
+    }
 
     public SharedEnums.Enums.BlackOrWhite Side { get; set; }
 

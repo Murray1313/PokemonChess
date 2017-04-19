@@ -3,28 +3,13 @@
                     xmlns:local="clr-namespace:PokemonChess.Styles"
                     xmlns:cal="http://www.caliburnproject.org"
                     xmlns:converters="clr-namespace:PokemonChess.Converters">
-
+  
+  <converters:MultibindPercentageWidthConverter x:Key="ImageGridPWConverter" />
+  
   <Style x:Key="ImageGrid" TargetType="Grid">
     <Setter Property="cal:Message.Attach" Value="[Event PreviewMouseDown] = [Action SelectSpace($dataContext)]" />
-    <Setter Property="Panel.ZIndex" Value="2" />
     <Setter Property="Height" Value="{Binding Path=ActualHeight, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='.125'}" />
     <Setter Property="Width" Value="{Binding Path=ActualWidth, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='.125'}" />
-    <Setter Property="Canvas.Left">
-      <Setter.Value>
-        <MultiBinding Converter="{StaticResource converters:MultibindPercentageWidthConverter}">
-          <Binding Path="ActualWidth" ElementName="ChessBoard" />
-          <Binding Path="LeftLocationModifier" />
-        </MultiBinding>
-      </Setter.Value>
-    </Setter>
-    <Setter Property="Canvas.Top">
-      <Setter.Value>
-        <MultiBinding Converter="{StaticResource converters:MultibindPercentageWidthConverter}">
-          <Binding Path="ActualHeight" ElementName="ChessBoard" />
-          <Binding Source="TopLocationModifier" />
-        </MultiBinding>
-      </Setter.Value>
-    </Setter>
     <Style.Triggers>
       <Trigger Property="IsMouseOver" Value="True">
         <Setter Property="Background" Value="#FF7575"></Setter>
@@ -50,15 +35,16 @@
     <Setter Property="Fill" Value="AntiqueWhite" />
   </Style>
 
-  <Style x:Key="PieceBorders" TargetType="Border">
-    <Setter Property="BorderThickness" Value="1" />
+  <Style x:Key="ImageBorder" TargetType="Border">
     <Setter Property="AllowDrop" Value="False" />
+    <Setter Property="BorderThickness" Value="1" />
+    <Setter Property="BorderBrush" Value="Transparent"/>
+  </Style>
+
+  <Style x:Key="PieceBorders" BasedOn="{StaticResource ImageBorder}" TargetType="Border">
     <Style.Triggers>
       <DataTrigger Binding="{Binding IsSelected}" Value="True">
         <Setter Property="BorderBrush" Value="DarkRed" />
-      </DataTrigger>
-      <DataTrigger Binding="{Binding IsSelected}" Value="False">
-        <Setter Property="BorderBrush" Value="Transparent"/>
       </DataTrigger>
       <DataTrigger Binding="{Binding IsMovableSpace}" Value="True">
         <Setter Property="AllowDrop" Value="True" />
@@ -99,6 +85,22 @@
     </Style.Triggers>
   </Style>
 
+  <ControlTemplate x:Key="DraggingPiece">
+    <Grid Style="{StaticResource ImageGrid}"
+          Canvas.Left="{Binding Path=ActualWidth, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='0'}"
+          Canvas.Top="{Binding Path=ActualHeight, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='0'}">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="*"/>
+        <RowDefinition Height="*"/>
+        <RowDefinition Height="*"/>
+      </Grid.RowDefinitions>
+      <Ellipse Grid.Row="2" Style="{StaticResource PieceBaseStyle}" />
+      <Border Grid.Row="0" Grid.RowSpan="3" Style="{StaticResource PieceBorders}">
+        <Image Source="{Binding Path=ImagePath, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource PieceStyle}" />
+      </Border>
+    </Grid>
+  </ControlTemplate>
+  
   <!--Main template for the Board Canvas-->
   <ControlTemplate x:Key="BoardDrawing">
     <Canvas Name="ChessBoard" Width="{Binding Path=ActualHeight, ElementName=ChessBoard}">
@@ -311,7 +313,32 @@
                            Canvas.Top="{Binding Path=ActualHeight, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='.875'}" />
 
       <!--All Pieces (works as ContentTemplate)-->
-      <ItemsControl DataContext="{Binding CurrentGame.GameBoard.BoardPieces}">
+      <ItemsControl ItemsSource="{Binding CurrentGame.GameBoard.BoardPieces}" Panel.ZIndex="4">
+        <ItemsControl.ItemsPanel>
+          <ItemsPanelTemplate>
+            <Canvas />
+          </ItemsPanelTemplate>
+        </ItemsControl.ItemsPanel>
+        <ItemsControl.ItemContainerStyle>
+          <Style TargetType="ContentPresenter">
+            <Setter Property="Canvas.Left">
+              <Setter.Value>
+                <MultiBinding Converter="{StaticResource ImageGridPWConverter}">
+                  <Binding Path="ActualWidth" ElementName="ChessBoard" />
+                  <Binding Path="Location.LeftLocationModifier" UpdateSourceTrigger="PropertyChanged" NotifyOnSourceUpdated="True" />
+                </MultiBinding>
+              </Setter.Value>
+            </Setter>
+            <Setter Property="Canvas.Top">
+              <Setter.Value>
+                <MultiBinding Converter="{StaticResource ImageGridPWConverter}">
+                  <Binding Path="ActualHeight" ElementName="ChessBoard" />
+                  <Binding Path="Location.TopLocationModifier" UpdateSourceTrigger="PropertyChanged" NotifyOnSourceUpdated="True" />
+                </MultiBinding>
+              </Setter.Value>
+            </Setter>
+          </Style>
+        </ItemsControl.ItemContainerStyle>
         <ItemsControl.ItemTemplate>
           <DataTemplate>
             <Grid Style="{StaticResource ImageGrid}">
@@ -329,6 +356,8 @@
         </ItemsControl.ItemTemplate>
       </ItemsControl>
 
+      <!--<Control Template="{StaticResource DraggingPiece}" DataContext="{Binding CurrentGame.GameBoard.DraggingPiece}" Panel.ZIndex="3" />-->
+      
     </Canvas>
   </ControlTemplate>
 </ResourceDictionary>

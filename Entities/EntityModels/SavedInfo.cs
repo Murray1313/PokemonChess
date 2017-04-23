@@ -13,9 +13,9 @@ namespace Entities
   {
     public BindableCollection<String> BoardPieceStrings { get; set; }
 
-    public SharedEnums.Enums.TeamType SavedWhiteTeamType { get; set; }
+    public Enums.TeamType SavedWhiteTeamType { get; set; }
 
-    public SharedEnums.Enums.TeamType SavedBlackTeamType { get; set; }
+    public Enums.TeamType SavedBlackTeamType { get; set; }
 
     public bool CanBlackCastleRight { get; set; }
 
@@ -27,7 +27,7 @@ namespace Entities
 
     public int SavedTurnCount { get; set; }
 
-    public SharedEnums.Enums.BlackOrWhite SavedCurrentTurn { get; set; }
+    public Enums.BlackOrWhite SavedCurrentTurn { get; set; }
 
     public String GameString { get; set; }
 
@@ -35,8 +35,8 @@ namespace Entities
 
     public BindableCollection<String> SavedFaintedWhite { get; set; }
 
-    public Entities.SharedEnums.Enums.TeamType WhiteDefaultTeam { get; set; }
+    public Enums.TeamType WhiteDefaultTeam { get; set; }
 
-    public Entities.SharedEnums.Enums.TeamType BlackDefaultTeam { get; set; }
+    public Enums.TeamType BlackDefaultTeam { get; set; }
   }
 }

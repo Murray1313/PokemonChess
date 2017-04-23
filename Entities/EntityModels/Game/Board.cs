@@ -2,10 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Caliburn.Micro;
-using Entities.EntityModels.Pieces.PokemonPieces;
+using Entities.SharedEnums;
 using Entities.EntityModels.Pieces;
 using PokemonChess;
 
@@ -14,42 +12,34 @@ namespace Entities
   public class Board : PropertyChangedBase
   {
     #region " Private "
-    private IPiece[] _boardPieces;
+    private BindableCollection<IPiece> _boardPieceCollection;
+    private BindableCollection<Location> _moveableSpaces;
     #endregion
 
 
     #region " Constructor "
     public Board()
     {
-      this.BoardPieces = new IPiece[64];
-      for (int x = 0; x < 64; x++)
-      {
-        this.BoardPieces[x] = new BlankSpace(x);
-      }
+      this.BoardPieceCollection = new BindableCollection<IPiece>();
+      this.MoveableSpaces = new BindableCollection<Location>();
     }
 
     public Board(Team whiteTeam, Team blackTeam)
     {
-      this.BoardPieces = new IPiece[64];
-      for (int x = 0; x < 64; x++) { this.BoardPieces[x] = new BlankSpace(x); }
-
-      this.PlacePieces(whiteTeam);
-      this.PlacePieces(blackTeam);
+      this.BoardPieceCollection = new BindableCollection<IPiece>();
+      this.BoardPieceCollection.AddRange(whiteTeam.Pieces);
+      this.BoardPieceCollection.AddRange(blackTeam.Pieces);
+      this.MoveableSpaces = new BindableCollection<Location>();
     }
 
-    public Board(BindableCollection<String> importedStrings, SharedEnums.Enums.TeamType blackType, SharedEnums.Enums.TeamType whiteType)
+    public Board(BindableCollection<String> importedStrings, Enums.TeamType blackType, Enums.TeamType whiteType)
     {
-      this.BoardPieces = new IPiece[64];
-      for (int x = 0; x < 64; x++)
+      this.BoardPieceCollection = new BindableCollection<IPiece>();
+      this.MoveableSpaces = new BindableCollection<Location>();
+      foreach (String pokemonData in importedStrings)
       {
-        if (importedStrings.ElementAt(x).Equals("BlankSpace"))
-        {
-          this.BoardPieces[x] = new BlankSpace(x);
-        }
-        else
-        {
-          this.BoardPieces[x] = General.GetPieceInstanceFromString(importedStrings.ElementAt(x), x, blackType, whiteType);
-        }
+        string[] pokemonDataPieces = pokemonData.Split(' ');
+        this.BoardPieceCollection.Add(General.GetPieceInstanceFromString(pokemonDataPieces[0], Int32.Parse(pokemonDataPieces[1]), blackType, whiteType));
       }
     }
     #endregion
@@ -57,97 +47,40 @@ namespace Entities
 
     #region " Properties "
 
-    public IPiece[] BoardPieces
+    public BindableCollection<IPiece> BoardPieceCollection
     {
-      get { return _boardPieces; }
+      get { return _boardPieceCollection; }
       set
       {
-        _boardPieces = value;
-        NotifyOfPropertyChange(() => BoardPieces);
+        _boardPieceCollection = value;
+        NotifyOfPropertyChange(() => BoardPieceCollection);
       }
     }
 
+    public BindableCollection<Location> MoveableSpaces
+    {
+      get { return _moveableSpaces; }
+      set
+      {
+        _moveableSpaces = value;
+        NotifyOfPropertyChange(() => MoveableSpaces);
+      }
+    }
     #endregion
 
 
     #region " Methods "
-    private void PlacePieces(Team team)
+    public bool IsLocationEmpty(int boardLocation)
     {
-      foreach (IPiece piece in team.Pieces) { this.BoardPieces[piece.Location.ArraySpotInt] = piece; }
+      return !this.BoardPieceCollection.Any(x => x.Location.ArraySpotInt == boardLocation);
     }
 
-    public void ClearPlayablePieces()
+    public bool IsLocationOfTeamType(int boardLocation, Enums.BlackOrWhite teamType)
     {
-      for (int x = 0; x < 64; x++) { this.BoardPieces[x].IsMovableSpace = false; }
+      IPiece possiblePiece = BoardPieceCollection.FirstOrDefault(x => x.Location.ArraySpotInt == boardLocation);
+      return (possiblePiece != null) ? possiblePiece.Side == teamType : false;
     }
 
-
-    public IEnumerable<Location> GetPlayableSpaces(IPiece piece)
-    {
-      IEnumerable<Location> returnList = new List<Location>();
-      switch (piece.GetType().BaseType.Name)
-      {
-        case Constants.PieceTypes.Pawn:
-          Pawn pawn = (Pawn)piece;
-          returnList = pawn.GetPawnsConquerableSpaces(this, piece);
-          break;
-        case Constants.PieceTypes.Knight:
-          Knight knight = (Knight)piece;
-          returnList = knight.GetKnightsConquerableSpaces(this, piece);
-          break;
-        case Constants.PieceTypes.Bishop:
-          Bishop bishop = (Bishop)piece;
-          returnList = bishop.GetBishopsConquerableSpaces(this, piece);
-          break;
-        case Constants.PieceTypes.Rook:
-          Rook rook = (Rook)piece;
-          returnList = rook.GetRooksConquerableSpaces(this, piece);
-          break;
-        case Constants.PieceTypes.Queen:
-          Queen queen = (Queen)piece;
-          returnList = queen.GetQueenConquerableSpaces(this, piece);
-          break;
-        case Constants.PieceTypes.King:
-          King king = (King)piece;
-          returnList = king.GetKingMovableSpaces(this, piece);
-          break;
-        default: break;
-      }
-      return returnList;
-    }
-
-    public void SetPlayablePieces(IPiece piece)
-    {
-      ClearPlayablePieces();
-      switch (piece.GetType().BaseType.Name)
-      {
-        case Constants.PieceTypes.Pawn:
-          Pawn pawn = (Pawn)piece;
-          pawn.SetMovableSpaces(this, piece);
-          break;
-        case Constants.PieceTypes.Knight:
-          Knight knight = (Knight)piece;
-          knight.SetMovableSpaces(this, piece);
-          break;
-        case Constants.PieceTypes.Bishop:
-          Bishop bishop = (Bishop)piece;
-          bishop.SetMovableSpaces(this, piece);
-          break;
-        case Constants.PieceTypes.Rook:
-          Rook rook = (Rook)piece;
-          rook.SetMovableSpaces(this, piece);
-          break;
-        case Constants.PieceTypes.Queen:
-          Queen queen = (Queen)piece;
-          queen.SetMovableSpaces(this, piece);
-          break;
-        case Constants.PieceTypes.King:
-          King king = (King)piece;
-          king.SetMovableSpaces(this, piece);
-          break;
-        default: break;
-      }
-    }
     #endregion
   }
 }

@@ -114,25 +114,25 @@
               <TextBlock Grid.Row="0" Grid.Column="7" Text="G" Style="{StaticResource ChessLetters}" Margin="4,2" />
               <TextBlock Grid.Row="0" Grid.Column="8" Text="H" Style="{StaticResource ChessLetters}" Margin="4,2" />
 
-              <TextBlock Grid.Row="1" Grid.Column="0" Text="8" Style="{StaticResource ChessLetters}" Margin="4" />
-              <TextBlock Grid.Row="2" Grid.Column="0" Text="7" Style="{StaticResource ChessLetters}" Margin="4" />
-              <TextBlock Grid.Row="3" Grid.Column="0" Text="6" Style="{StaticResource ChessLetters}" Margin="4" />
-              <TextBlock Grid.Row="4" Grid.Column="0" Text="5" Style="{StaticResource ChessLetters}" Margin="4" />
-              <TextBlock Grid.Row="5" Grid.Column="0" Text="4" Style="{StaticResource ChessLetters}" Margin="4" />
-              <TextBlock Grid.Row="6" Grid.Column="0" Text="3" Style="{StaticResource ChessLetters}" Margin="4" />
-              <TextBlock Grid.Row="7" Grid.Column="0" Text="2" Style="{StaticResource ChessLetters}" Margin="4" />
-              <TextBlock Grid.Row="8" Grid.Column="0" Text="1" Style="{StaticResource ChessLetters}" Margin="4" />
+              <TextBlock Grid.Row="1" Grid.Column="0" Text="1" Style="{StaticResource ChessLetters}" Margin="4" />
+              <TextBlock Grid.Row="2" Grid.Column="0" Text="2" Style="{StaticResource ChessLetters}" Margin="4" />
+              <TextBlock Grid.Row="3" Grid.Column="0" Text="3" Style="{StaticResource ChessLetters}" Margin="4" />
+              <TextBlock Grid.Row="4" Grid.Column="0" Text="4" Style="{StaticResource ChessLetters}" Margin="4" />
+              <TextBlock Grid.Row="5" Grid.Column="0" Text="5" Style="{StaticResource ChessLetters}" Margin="4" />
+              <TextBlock Grid.Row="6" Grid.Column="0" Text="6" Style="{StaticResource ChessLetters}" Margin="4" />
+              <TextBlock Grid.Row="7" Grid.Column="0" Text="7" Style="{StaticResource ChessLetters}" Margin="4" />
+              <TextBlock Grid.Row="8" Grid.Column="0" Text="8" Style="{StaticResource ChessLetters}" Margin="4" />
 
               <Control Grid.Row="1" Grid.Column="1" Grid.RowSpan="8" Grid.ColumnSpan="8" Template="{StaticResource BoardDrawing}" />
               
-              <TextBlock Grid.Row="1" Grid.Column="9" Text="8" Style="{StaticResource ChessLetters}" Margin="4" />
-              <TextBlock Grid.Row="2" Grid.Column="9" Text="7" Style="{StaticResource ChessLetters}" Margin="4" />
-              <TextBlock Grid.Row="3" Grid.Column="9" Text="6" Style="{StaticResource ChessLetters}" Margin="4" />
-              <TextBlock Grid.Row="4" Grid.Column="9" Text="5" Style="{StaticResource ChessLetters}" Margin="4" />
-              <TextBlock Grid.Row="5" Grid.Column="9" Text="4" Style="{StaticResource ChessLetters}" Margin="4" />
-              <TextBlock Grid.Row="6" Grid.Column="9" Text="3" Style="{StaticResource ChessLetters}" Margin="4" />
-              <TextBlock Grid.Row="7" Grid.Column="9" Text="2" Style="{StaticResource ChessLetters}" Margin="4" />
-              <TextBlock Grid.Row="8" Grid.Column="9" Text="1" Style="{StaticResource ChessLetters}" Margin="4" />
+              <TextBlock Grid.Row="1" Grid.Column="9" Text="1" Style="{StaticResource ChessLetters}" Margin="4" />
+              <TextBlock Grid.Row="2" Grid.Column="9" Text="2" Style="{StaticResource ChessLetters}" Margin="4" />
+              <TextBlock Grid.Row="3" Grid.Column="9" Text="3" Style="{StaticResource ChessLetters}" Margin="4" />
+              <TextBlock Grid.Row="4" Grid.Column="9" Text="4" Style="{StaticResource ChessLetters}" Margin="4" />
+              <TextBlock Grid.Row="5" Grid.Column="9" Text="5" Style="{StaticResource ChessLetters}" Margin="4" />
+              <TextBlock Grid.Row="6" Grid.Column="9" Text="6" Style="{StaticResource ChessLetters}" Margin="4" />
+              <TextBlock Grid.Row="7" Grid.Column="9" Text="7" Style="{StaticResource ChessLetters}" Margin="4" />
+              <TextBlock Grid.Row="8" Grid.Column="9" Text="8" Style="{StaticResource ChessLetters}" Margin="4" />
 
               <TextBlock Grid.Row="9" Grid.Column="1" Text="A" Style="{StaticResource ChessLetters}" Margin="4,2" />
               <TextBlock Grid.Row="9" Grid.Column="2" Text="B" Style="{StaticResource ChessLetters}" Margin="4,2" />

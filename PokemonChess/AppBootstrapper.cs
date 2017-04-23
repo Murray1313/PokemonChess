@@ -132,12 +132,8 @@ namespace PokemonChess
 
       if (viewModel.CurrentGame != null && viewModel.CurrentGame.IsSaved)
       {
-        savedInfo.BoardPieceStrings = new BindableCollection<String>() { };
-        for (int x = 0; x < 64; x++)
-        {
-          String s = viewModel.CurrentGame.GameBoard.BoardPieces[x].GetType().ToString();
-          savedInfo.BoardPieceStrings.Add(s.Substring(s.LastIndexOf(".") + 1));
-        }
+        savedInfo.BoardPieceStrings = 
+          new BindableCollection<String>(viewModel.CurrentGame.GameBoard.BoardPieceCollection.Select(x => $"{x.Name} {x.Location.ArraySpotInt}"));
         savedInfo.SavedBlackTeamType = viewModel.CurrentGame.BlackTeam.PokemonType;
         savedInfo.SavedWhiteTeamType = viewModel.CurrentGame.WhiteTeam.PokemonType;
         savedInfo.SavedTurnCount = viewModel.CurrentGame.TurnCount;
@@ -149,19 +145,8 @@ namespace PokemonChess
         savedInfo.CanWhiteCastleLeft = viewModel.CurrentGame.WhiteTeam.CanCastleLeft;
         savedInfo.CanWhiteCastleRight = viewModel.CurrentGame.WhiteTeam.CanCastleRight;
 
-        savedInfo.SavedFaintedBlack = new BindableCollection<string>() { };
-        foreach (IPiece piece in viewModel.CurrentGame.FaintedBlackPokes)
-        {
-          String faintedBlakies = piece.GetType().ToString();
-          savedInfo.SavedFaintedBlack.Add(faintedBlakies.Substring(faintedBlakies.LastIndexOf(".") + 1));
-        }
-
-        savedInfo.SavedFaintedWhite = new BindableCollection<string>() { };
-        foreach (IPiece piece in viewModel.CurrentGame.FaintedWhitePokes)
-        {
-          String faintedWhities = piece.GetType().ToString();
-          savedInfo.SavedFaintedWhite.Add(faintedWhities.Substring(faintedWhities.LastIndexOf(".") + 1));
-        }
+        savedInfo.SavedFaintedBlack = new BindableCollection<string>(viewModel.CurrentGame.FaintedBlackPokes.Select(x => x.Pokemon.Name));
+        savedInfo.SavedFaintedWhite = new BindableCollection<string>(viewModel.CurrentGame.FaintedWhitePokes.Select(x => x.Pokemon.Name));
       }
       else
       {

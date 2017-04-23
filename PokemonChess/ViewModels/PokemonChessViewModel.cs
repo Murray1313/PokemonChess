@@ -67,45 +67,45 @@ namespace PokemonChess.ViewModels
     {
       if (selectedPiece != null)
       {
-        this.CurrentGame.GameBoard.ClearPlayablePieces();
+        this.CurrentGame.GameBoard.MoveableSpaces.Clear();
         this.CurrentGame.SetSelected(selectedPiece);
 
         if (selectedPiece.Side == this.CurrentGame.CurrentTurn)
         {
-          this.CurrentGame.GameBoard.SetPlayablePieces(selectedPiece);
+          this.CurrentGame.GameBoard.MoveableSpaces.Clear();
+          selectedPiece.SetMovableSpaces(this.CurrentGame.GameBoard);
           if (selectedPiece.ChessPieceType == Enums.Pieces.King)
           {
-            King king = (King)selectedPiece;
             if (selectedPiece.Side == Enums.BlackOrWhite.Black)
             {
               if (this.CurrentGame.BlackTeam.CanCastleLeft == true &&
-                  this.CurrentGame.GameBoard.BoardPieces[1].Side == Enums.BlackOrWhite.None &&
-                  this.CurrentGame.GameBoard.BoardPieces[2].Side == Enums.BlackOrWhite.None &&
-                  this.CurrentGame.GameBoard.BoardPieces[3].Side == Enums.BlackOrWhite.None)
+                  this.CurrentGame.GameBoard.IsLocationEmpty(1) &&
+                  this.CurrentGame.GameBoard.IsLocationEmpty(2) &&
+                  this.CurrentGame.GameBoard.IsLocationEmpty(3))
               {
-                this.CurrentGame.GameBoard.BoardPieces[2].IsMovableSpace = true;
+                this.CurrentGame.GameBoard.MoveableSpaces.Add(new Location(2));
               }
               if (this.CurrentGame.BlackTeam.CanCastleRight == true &&
-                  this.CurrentGame.GameBoard.BoardPieces[5].Side == Enums.BlackOrWhite.None &&
-                  this.CurrentGame.GameBoard.BoardPieces[6].Side == Enums.BlackOrWhite.None)
+                  this.CurrentGame.GameBoard.IsLocationEmpty(5) &&
+                  this.CurrentGame.GameBoard.IsLocationEmpty(6))
               {
-                this.CurrentGame.GameBoard.BoardPieces[6].IsMovableSpace = true;
+                this.CurrentGame.GameBoard.MoveableSpaces.Add(new Location(6));
               }
             }
             else if (selectedPiece.Side == Enums.BlackOrWhite.White)
             {
               if (this.CurrentGame.WhiteTeam.CanCastleLeft == true &&
-                  this.CurrentGame.GameBoard.BoardPieces[57].Side == Enums.BlackOrWhite.None &&
-                  this.CurrentGame.GameBoard.BoardPieces[58].Side == Enums.BlackOrWhite.None &&
-                  this.CurrentGame.GameBoard.BoardPieces[59].Side == Enums.BlackOrWhite.None)
+                  this.CurrentGame.GameBoard.IsLocationEmpty(57) &&
+                  this.CurrentGame.GameBoard.IsLocationEmpty(58) &&
+                  this.CurrentGame.GameBoard.IsLocationEmpty(59))
               {
-                this.CurrentGame.GameBoard.BoardPieces[58].IsMovableSpace = true;
+                this.CurrentGame.GameBoard.MoveableSpaces.Add(new Location(58));
               }
               if (this.CurrentGame.WhiteTeam.CanCastleRight == true &&
-                  this.CurrentGame.GameBoard.BoardPieces[61].Side == Enums.BlackOrWhite.None &&
-                  this.CurrentGame.GameBoard.BoardPieces[62].Side == Enums.BlackOrWhite.None)
+                  this.CurrentGame.GameBoard.IsLocationEmpty(61) &&
+                  this.CurrentGame.GameBoard.IsLocationEmpty(62))
               {
-                this.CurrentGame.GameBoard.BoardPieces[62].IsMovableSpace = true;
+                this.CurrentGame.GameBoard.MoveableSpaces.Add(new Location(62));
               }
             }
           }
@@ -115,34 +115,35 @@ namespace PokemonChess.ViewModels
 
     public void DragMove(Image grid, IPiece piece)
     {
-      if (piece != null && piece.GetType() != typeof(BlankSpace))
-      {
-        DragDrop.DoDragDrop(grid, piece, DragDropEffects.Move);
-      }
+      if (piece != null) { DragDrop.DoDragDrop(grid, piece, DragDropEffects.Move); }
     }
 
-    public void MovePiece(IPiece takenPiece)
+    public void MovePiece(Location newSpot)
     {
       // Commented out should I ever get rid of SelectedPiece
-      //IPiece movingPiece = (IPiece)dragEvent.Data.GetData(this.CurrentGame.SelectedPiece.GetType());
       Location oldSpot = this.CurrentGame.SelectedPiece.Location;
-      Location newSpot = takenPiece.Location;
-      if (takenPiece.Side == Enums.BlackOrWhite.Black) { this.CurrentGame.FaintedBlackPokes.AddFaintedPokemon(takenPiece); }
-      else if (takenPiece.Side == Enums.BlackOrWhite.White) { this.CurrentGame.FaintedWhitePokes.AddFaintedPokemon(takenPiece); }
 
-      this.CurrentGame.GameBoard.BoardPieces[oldSpot.ArraySpotInt] = new BlankSpace(this.CurrentGame.SelectedPiece.Location);
+      // Check if the spot being moved to hosts a piece.
+      IPiece takenPiece = this.CurrentGame.GameBoard.BoardPieceCollection.FirstOrDefault(x => x.Location.ArraySpotInt == newSpot.ArraySpotInt);
+      if (takenPiece != null)
+      {
+        if (takenPiece.Side == Enums.BlackOrWhite.Black) { this.CurrentGame.FaintedBlackPokes.AddFaintedPokemon(takenPiece); }
+        else if (takenPiece.Side == Enums.BlackOrWhite.White) { this.CurrentGame.FaintedWhitePokes.AddFaintedPokemon(takenPiece); }
+        this.CurrentGame.GameBoard.BoardPieceCollection.Remove(takenPiece);
+      }
       this.CurrentGame.SelectedPiece.Location = newSpot;
       this.CurrentGame.SelectedPiece.IsSelected = false;
-      this.CurrentGame.GameBoard.BoardPieces[newSpot.ArraySpotInt] = this.CurrentGame.SelectedPiece;
-
-      if (General.EnsureKingSafety(this.CurrentGame.GameBoard, this.CurrentGame.SelectedPiece.Side))
+      
+      if (this.CurrentGame.EnsureKingSafety(this.CurrentGame.SelectedPiece.Side))
       {
-        this.CurrentGame.GameBoard.BoardPieces[newSpot.ArraySpotInt] = takenPiece;
         this.CurrentGame.SelectedPiece.Location = oldSpot;
         this.CurrentGame.SelectedPiece.IsSelected = false;
-        this.CurrentGame.GameBoard.BoardPieces[oldSpot.ArraySpotInt] = this.CurrentGame.SelectedPiece;
-        if (takenPiece.Side == Enums.BlackOrWhite.Black) { this.CurrentGame.FaintedBlackPokes.RemoveFaintedPokemon(takenPiece); }
-        else if (takenPiece.Side == Enums.BlackOrWhite.White) { this.CurrentGame.FaintedWhitePokes.RemoveFaintedPokemon(takenPiece); }
+        if (takenPiece != null)
+        {
+          if (takenPiece.Side == Enums.BlackOrWhite.Black) { this.CurrentGame.FaintedBlackPokes.RemoveFaintedPokemon(takenPiece); }
+          else if (takenPiece.Side == Enums.BlackOrWhite.White) { this.CurrentGame.FaintedWhitePokes.RemoveFaintedPokemon(takenPiece); }
+          this.CurrentGame.GameBoard.BoardPieceCollection.Add(takenPiece);
+        }
         this.PieceDataScreen.AppendGenericMessage(String.Format("{0} in Check!", this.CurrentGame.SelectedPiece.Side), this.CurrentGame.TurnCount, this.CurrentGame.SelectedPiece.Side);
       }
       else
@@ -152,18 +153,16 @@ namespace PokemonChess.ViewModels
           King king = (King)this.CurrentGame.SelectedPiece;
           if (this.CurrentGame.CurrentTurn == Enums.BlackOrWhite.Black)
           {
-            if (takenPiece.Location.ArraySpotInt == 2 && this.CurrentGame.BlackTeam.CanCastleLeft == true)
+            if (newSpot.ArraySpotInt == 2 && this.CurrentGame.BlackTeam.CanCastleLeft)
             {
-              this.CurrentGame.GameBoard.BoardPieces[3] = this.CurrentGame.GameBoard.BoardPieces[0];
-              this.CurrentGame.GameBoard.BoardPieces[3].Location = new Location(3);
-              this.CurrentGame.GameBoard.BoardPieces[0] = new BlankSpace(0);
+              IPiece CastleRook = this.CurrentGame.GameBoard.BoardPieceCollection.FirstOrDefault(x => x.ChessPieceType == Enums.Pieces.Rook && x.Location.ArraySpotInt == 0);
+              CastleRook.Location = new Location(3);
               this.PieceDataScreen.AppendGenericMessage(String.Format("{0}", this.CurrentGame.SelectedPiece.Name + " Castle!"), this.CurrentGame.TurnCount, this.CurrentGame.SelectedPiece.Side);
             }
-            else if (takenPiece.Location.ArraySpotInt == 6 && this.CurrentGame.BlackTeam.CanCastleRight == true)
+            else if (newSpot.ArraySpotInt == 6 && this.CurrentGame.BlackTeam.CanCastleRight)
             {
-              this.CurrentGame.GameBoard.BoardPieces[5] = this.CurrentGame.GameBoard.BoardPieces[7];
-              this.CurrentGame.GameBoard.BoardPieces[5].Location = new Location(5);
-              this.CurrentGame.GameBoard.BoardPieces[7] = new BlankSpace(7);
+              IPiece CastleRook = this.CurrentGame.GameBoard.BoardPieceCollection.FirstOrDefault(x => x.ChessPieceType == Enums.Pieces.Rook && x.Location.ArraySpotInt == 7);
+              CastleRook.Location = new Location(5);
               this.PieceDataScreen.AppendGenericMessage(String.Format("{0}", this.CurrentGame.SelectedPiece.Name + " Castle!"), this.CurrentGame.TurnCount, this.CurrentGame.SelectedPiece.Side);
             }
             this.CurrentGame.BlackTeam.CanCastleLeft = false;
@@ -171,18 +170,16 @@ namespace PokemonChess.ViewModels
           }
           else if (this.CurrentGame.CurrentTurn == Enums.BlackOrWhite.White)
           {
-            if (takenPiece.Location.ArraySpotInt == 58 && this.CurrentGame.WhiteTeam.CanCastleLeft == true)
+            if (newSpot.ArraySpotInt == 58 && this.CurrentGame.WhiteTeam.CanCastleLeft)
             {
-              this.CurrentGame.GameBoard.BoardPieces[59] = this.CurrentGame.GameBoard.BoardPieces[56];
-              this.CurrentGame.GameBoard.BoardPieces[59].Location = new Location(59);
-              this.CurrentGame.GameBoard.BoardPieces[56] = new BlankSpace(56);
+              IPiece CastleRook = this.CurrentGame.GameBoard.BoardPieceCollection.FirstOrDefault(x => x.ChessPieceType == Enums.Pieces.Rook && x.Location.ArraySpotInt == 56);
+              CastleRook.Location = new Location(59);
               this.PieceDataScreen.AppendGenericMessage(String.Format("{0}", this.CurrentGame.SelectedPiece.Name + " Castle!"), this.CurrentGame.TurnCount, this.CurrentGame.SelectedPiece.Side);
             }
-            else if (takenPiece.Location.ArraySpotInt == 62 && this.CurrentGame.WhiteTeam.CanCastleRight == true)
+            else if (newSpot.ArraySpotInt == 62 && this.CurrentGame.WhiteTeam.CanCastleRight)
             {
-              this.CurrentGame.GameBoard.BoardPieces[61] = this.CurrentGame.GameBoard.BoardPieces[63];
-              this.CurrentGame.GameBoard.BoardPieces[61].Location = new Location(61);
-              this.CurrentGame.GameBoard.BoardPieces[63] = new BlankSpace(63);
+              IPiece CastleRook = this.CurrentGame.GameBoard.BoardPieceCollection.FirstOrDefault(x => x.ChessPieceType == Enums.Pieces.Rook && x.Location.ArraySpotInt == 63);
+              CastleRook.Location = new Location(61);
               this.PieceDataScreen.AppendGenericMessage(String.Format("{0}", this.CurrentGame.SelectedPiece.Name + " Castle!"), this.CurrentGame.TurnCount, this.CurrentGame.SelectedPiece.Side);
             }
             else
@@ -213,14 +210,13 @@ namespace PokemonChess.ViewModels
         }
         this.CurrentGame.ChangeTurn();
 
-        bool inCheck = (this.CurrentGame.SelectedPiece.Side == Enums.BlackOrWhite.Black) ?
-             General.EnsureKingSafety(this.CurrentGame.GameBoard, Enums.BlackOrWhite.White) :
-             General.EnsureKingSafety(this.CurrentGame.GameBoard, Enums.BlackOrWhite.Black);
-        if (inCheck)
+        Enums.BlackOrWhite enemySide = (this.CurrentGame.SelectedPiece.Side == Enums.BlackOrWhite.Black) 
+                                      ? Enums.BlackOrWhite.White : Enums.BlackOrWhite.Black;
+        if (this.CurrentGame.EnsureKingSafety(enemySide))
         {
-          if (General.IsCheckmate(this.CurrentGame.GameBoard, this.CurrentGame.SelectedPiece.Side))
+          if (this.CurrentGame.IsCheckmate(enemySide))
           {
-            this.PieceDataScreen.AppendGenericMessage(String.Format("Check Mate! {0} Wins!", this.CurrentGame.SelectedPiece.Side), 
+            this.PieceDataScreen.AppendGenericMessage(String.Format("Check Mate! {0} Wins!", this.CurrentGame.SelectedPiece.Side),
               this.CurrentGame.TurnCount, this.CurrentGame.SelectedPiece.Side);
           }
           else
@@ -229,9 +225,8 @@ namespace PokemonChess.ViewModels
           }
         }
       }
-      this.CurrentGame.GameBoard.ClearPlayablePieces();
+      this.CurrentGame.GameBoard.MoveableSpaces.Clear();
       this.CurrentGame.Refresh();
-      NotifyOfPropertyChange(() => CurrentGame);
     }
 
     public void OpenMainMenu()

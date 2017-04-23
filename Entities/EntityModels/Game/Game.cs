@@ -1,8 +1,11 @@
 ﻿using System;
-using System.Windows.Media;
+using System.Linq;
 using Caliburn.Micro;
 using Entities.Interfaces;
+using Entities.SharedEnums;
 using Entities.EntityModels.Game;
+using System.Collections.Generic;
+using PokemonChess;
 
 namespace Entities
 {
@@ -135,9 +138,7 @@ namespace Entities
 
     public void ChangeTurn()
     {
-      this.CurrentTurn = (this.CurrentTurn == SharedEnums.Enums.BlackOrWhite.White) 
-        ? SharedEnums.Enums.BlackOrWhite.Black 
-        : SharedEnums.Enums.BlackOrWhite.White;
+      this.CurrentTurn = (this.CurrentTurn == Enums.BlackOrWhite.White) ? Enums.BlackOrWhite.Black : Enums.BlackOrWhite.White;
       this.TurnCount++;
     }
 
@@ -146,6 +147,49 @@ namespace Entities
       if (this.SelectedPiece != null) { this.SelectedPiece.IsSelected = false; }
       this.SelectedPiece = newPiece;
       this.SelectedPiece.IsSelected = true;
+    }
+
+    public bool EnsureKingSafety(Enums.BlackOrWhite side)
+    {
+      // Enumerate through enemy pieces to see if they threaten the king
+      foreach (IPiece enemyPiece in this.GameBoard.BoardPieceCollection.Where(x => x.Side != side))
+      {
+        IEnumerable<Location> movableLocations = enemyPiece.GetMovableSpaces(this.GameBoard);
+        foreach (Location location in movableLocations)
+        {
+          IPiece foundPiece = this.GameBoard.BoardPieceCollection.FirstOrDefault(x => x.Location.ArraySpotInt == location.ArraySpotInt);
+          if (foundPiece != null && foundPiece.ChessPieceType == Enums.Pieces.King && foundPiece.Side == side)
+          {
+            return true;
+          }
+        }
+      }
+      return false;
+    }
+
+    public bool IsCheckmate(Enums.BlackOrWhite kingSide)
+    {
+      bool isCheckmate = true;
+      List<IPiece> allyPieces = new List<IPiece>(this.GameBoard.BoardPieceCollection.Where(x => x.Side == kingSide));
+
+      foreach (IPiece allyPiece in allyPieces)
+      {
+        Location startLocation = allyPiece.Location;
+        foreach (Location location in allyPiece.GetMovableSpaces(this.GameBoard))
+        {
+          // Move king and see if he's still in check
+          IPiece takenPiece = this.GameBoard.BoardPieceCollection.FirstOrDefault(x => x.Location.ArraySpotInt == location.ArraySpotInt);
+          if (takenPiece != null) { this.GameBoard.BoardPieceCollection.Remove(takenPiece); }
+          allyPiece.Location = location;
+          isCheckmate = EnsureKingSafety(kingSide);
+          allyPiece.Location = startLocation;
+          if (takenPiece != null) { this.GameBoard.BoardPieceCollection.Add(takenPiece); }
+
+          if (!isCheckmate) { return isCheckmate; }
+        }
+      }
+
+      return isCheckmate;
     }
     #endregion
 

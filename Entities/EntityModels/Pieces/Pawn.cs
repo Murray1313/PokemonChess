@@ -6,7 +6,7 @@ using Entities.SharedEnums;
 
 namespace Entities.EntityModels.Pieces
 {
-  public abstract class Pawn : ChessPiece, IMoveMechanics
+  public abstract class Pawn : ChessPiece
   {
 
     #region Constructor
@@ -25,108 +25,92 @@ namespace Entities.EntityModels.Pieces
 
 
     #region IMoveMechs implementation
-    public IEnumerable<Location> GetPawnsConquerableSpaces(Board board, IPiece piece)
+    public override IEnumerable<Location> GetMovableSpaces(Board board)
     {
       List<Location> returnList = new List<Location>();
-      if (piece.Side == SharedEnums.Enums.BlackOrWhite.White)
+      if (this.Side == Enums.BlackOrWhite.White)
       {
         // One space in front, diagonal left.
-        if (piece.Location.ArraySpotInt > 8 && board.BoardPieces[piece.Location.ArraySpotInt - 9].Side == SharedEnums.Enums.BlackOrWhite.Black)
+        if (this.Location.ArraySpotInt > 8 && board.IsLocationOfTeamType(this.Location.ArraySpotInt - 9, Enums.BlackOrWhite.Black)
+         && this.Location.YCoord != Enums.BoardColumns.A)
         {
-          if ((piece.Location.XCoord - 1) == board.BoardPieces[piece.Location.ArraySpotInt - 9].Location.XCoord)
-          {
-            returnList.Add(board.BoardPieces[piece.Location.ArraySpotInt - 9].Location);
-          }
+          returnList.Add(new Location(this.Location.ArraySpotInt - 9));
         }
         // One space in front, diagonal right.
-        if (piece.Location.ArraySpotInt > 7 && board.BoardPieces[piece.Location.ArraySpotInt - 7].Side == SharedEnums.Enums.BlackOrWhite.Black)
+        if (this.Location.ArraySpotInt > 7 && board.IsLocationOfTeamType(this.Location.ArraySpotInt - 7, Enums.BlackOrWhite.Black)
+         && this.Location.YCoord != Enums.BoardColumns.H)
         {
-          if ((piece.Location.XCoord - 1) == board.BoardPieces[piece.Location.ArraySpotInt - 7].Location.XCoord)
-          {
-            returnList.Add(board.BoardPieces[piece.Location.ArraySpotInt - 7].Location);
-          }
+          returnList.Add(new Location(this.Location.ArraySpotInt - 7));
         }
       }
       else
       {
         // One space in front, diagonal left.
-        if (piece.Location.ArraySpotInt < 55 && board.BoardPieces[piece.Location.ArraySpotInt + 9].Side == SharedEnums.Enums.BlackOrWhite.White)
+        if (this.Location.ArraySpotInt < 55 && board.IsLocationOfTeamType(this.Location.ArraySpotInt + 9, Enums.BlackOrWhite.White)
+         && this.Location.YCoord != Enums.BoardColumns.H)
         {
-          if ((piece.Location.XCoord + 1) == board.BoardPieces[piece.Location.ArraySpotInt + 9].Location.XCoord)
-          {
-            returnList.Add(board.BoardPieces[piece.Location.ArraySpotInt + 9].Location);
-          }
+          returnList.Add(new Location(this.Location.ArraySpotInt + 9));
         }
         // One space in front, diagonal right.
-        if (piece.Location.ArraySpotInt < 57 && board.BoardPieces[piece.Location.ArraySpotInt + 7].Side == SharedEnums.Enums.BlackOrWhite.White)
+        if (this.Location.ArraySpotInt < 57 && board.IsLocationOfTeamType(this.Location.ArraySpotInt + 7, Enums.BlackOrWhite.White)
+         && this.Location.YCoord != Enums.BoardColumns.A)
         {
-          if ((piece.Location.XCoord + 1) == board.BoardPieces[piece.Location.ArraySpotInt + 7].Location.XCoord)
-          {
-            returnList.Add(board.BoardPieces[piece.Location.ArraySpotInt + 7].Location);
-          }
+          returnList.Add(new Location(this.Location.ArraySpotInt + 7));
         }
       }
       return returnList;
     }
 
-    public void SetMovableSpaces(Board board, IPiece piece)
+    public override void SetMovableSpaces(Board board)
     {
-      if (piece.Side == SharedEnums.Enums.BlackOrWhite.White)
+      if (this.Side == Enums.BlackOrWhite.White)
       {
         // One space in front.
-        if (piece.Location.ArraySpotInt > 7 && board.BoardPieces[piece.Location.ArraySpotInt - 8].Side == SharedEnums.Enums.BlackOrWhite.None)
+        if (this.Location.ArraySpotInt > 7 && board.IsLocationEmpty(this.Location.ArraySpotInt - 8))
         {
-          board.BoardPieces[piece.Location.ArraySpotInt - 8].IsMovableSpace = true;
+          board.MoveableSpaces.Add(new Location(this.Location.ArraySpotInt - 8));
         }
         // One space in front, diagonal left.
-        if (piece.Location.ArraySpotInt > 8 && board.BoardPieces[piece.Location.ArraySpotInt - 9].Side == SharedEnums.Enums.BlackOrWhite.Black)
+        if (this.Location.ArraySpotInt > 8 && board.IsLocationOfTeamType(this.Location.ArraySpotInt - 9, Enums.BlackOrWhite.Black)
+         && this.Location.YCoord != Enums.BoardColumns.A)
         {
-          if ((piece.Location.XCoord - 1) == board.BoardPieces[piece.Location.ArraySpotInt - 9].Location.XCoord)
-          {
-            board.BoardPieces[piece.Location.ArraySpotInt - 9].IsMovableSpace = true;
-          }
+          board.MoveableSpaces.Add(new Location(this.Location.ArraySpotInt - 9));
         }
         // One space in front, diagonal right.
-        if (piece.Location.ArraySpotInt > 7 && board.BoardPieces[piece.Location.ArraySpotInt - 7].Side == SharedEnums.Enums.BlackOrWhite.Black)
+        if (this.Location.ArraySpotInt > 7 && board.IsLocationOfTeamType(this.Location.ArraySpotInt - 7, Enums.BlackOrWhite.Black)
+         && this.Location.YCoord != Enums.BoardColumns.H)
         {
-          if ((piece.Location.XCoord - 1) == board.BoardPieces[piece.Location.ArraySpotInt - 7].Location.XCoord)
-          {
-            board.BoardPieces[piece.Location.ArraySpotInt - 7].IsMovableSpace = true;
-          }
+          board.MoveableSpaces.Add(new Location(this.Location.ArraySpotInt - 7));
         }
         //Two Spaces forward
-        if (piece.Location.XCoord == SharedEnums.Enums.BoardRows.Seven && board.BoardPieces[piece.Location.ArraySpotInt - 16].Side == SharedEnums.Enums.BlackOrWhite.None)
+        if (this.Location.XCoord == Enums.BoardRows.Seven && board.IsLocationEmpty(this.Location.ArraySpotInt - 16))
         {
-          board.BoardPieces[piece.Location.ArraySpotInt - 16].IsMovableSpace = true;
+          board.MoveableSpaces.Add(new Location(this.Location.ArraySpotInt - 16));
         }
       }
       else
       {
         // One space in front.
-        if (piece.Location.ArraySpotInt < 56 && board.BoardPieces[piece.Location.ArraySpotInt + 8].Side == SharedEnums.Enums.BlackOrWhite.None)
+        if (this.Location.ArraySpotInt < 56 && board.IsLocationEmpty(this.Location.ArraySpotInt + 8))
         {
-          board.BoardPieces[piece.Location.ArraySpotInt + 8].IsMovableSpace = true;
-        }
-        // One space in front, diagonal left.
-        if (piece.Location.ArraySpotInt < 55 && board.BoardPieces[piece.Location.ArraySpotInt + 9].Side == SharedEnums.Enums.BlackOrWhite.White)
-        {
-          if ((piece.Location.XCoord + 1) == board.BoardPieces[piece.Location.ArraySpotInt + 9].Location.XCoord)
-          {
-            board.BoardPieces[piece.Location.ArraySpotInt + 9].IsMovableSpace = true;
-          }
+          board.MoveableSpaces.Add(new Location(this.Location.ArraySpotInt + 8));
         }
         // One space in front, diagonal right.
-        if (piece.Location.ArraySpotInt < 57 && board.BoardPieces[piece.Location.ArraySpotInt + 7].Side == SharedEnums.Enums.BlackOrWhite.White)
+        if (this.Location.ArraySpotInt < 55 && board.IsLocationOfTeamType(this.Location.ArraySpotInt + 9, Enums.BlackOrWhite.White)
+         && this.Location.YCoord != Enums.BoardColumns.H)
         {
-          if ((piece.Location.XCoord + 1) == board.BoardPieces[piece.Location.ArraySpotInt + 7].Location.XCoord)
-          {
-            board.BoardPieces[piece.Location.ArraySpotInt + 7].IsMovableSpace = true;
-          }
+          board.MoveableSpaces.Add(new Location(this.Location.ArraySpotInt + 9));
+        }
+        // One space in front, diagonal left.
+        if (this.Location.ArraySpotInt < 56 && board.IsLocationOfTeamType(this.Location.ArraySpotInt + 7, Enums.BlackOrWhite.White)
+         && this.Location.YCoord != Enums.BoardColumns.A)
+        {
+          board.MoveableSpaces.Add(new Location(this.Location.ArraySpotInt + 7));
         }
         //Two Spaces forward
-        if (piece.Location.XCoord == SharedEnums.Enums.BoardRows.Two && board.BoardPieces[piece.Location.ArraySpotInt + 16].Side == SharedEnums.Enums.BlackOrWhite.None)
+        if (this.Location.XCoord == Enums.BoardRows.Two && board.IsLocationEmpty(this.Location.ArraySpotInt + 16))
         {
-          board.BoardPieces[piece.Location.ArraySpotInt + 16].IsMovableSpace = true;
+          board.MoveableSpaces.Add(new Location(this.Location.ArraySpotInt + 16));
         }
       }
     }

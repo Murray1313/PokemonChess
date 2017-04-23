@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Entities.Interfaces
 {
-  public interface IPiece
+  public interface IPiece : IMoveMechanics
   {
     String Name { get; }
 
@@ -15,8 +15,6 @@ namespace Entities.Interfaces
     String MainPath { get; }
 
     bool IsSelected { get; set; }
-
-    bool IsMovableSpace { get; set; }
 
     Location Location { get; set; }
 

@@ -2,10 +2,11 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:PokemonChess.Styles"
                     xmlns:cal="http://www.caliburnproject.org"
-                    xmlns:converters="clr-namespace:PokemonChess.Converters">
-  
+                    xmlns:converters="clr-namespace:PokemonChess.Converters"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
   <converters:MultibindPercentageWidthConverter x:Key="ImageGridPWConverter" />
-  
+
   <Style x:Key="ImageGrid" TargetType="Grid">
     <Setter Property="cal:Message.Attach" Value="[Event PreviewMouseDown] = [Action SelectSpace($dataContext)]" />
     <Setter Property="Height" Value="{Binding Path=ActualHeight, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='.125'}" />
@@ -18,7 +19,6 @@
   </Style>
 
   <Style x:Key="BoardSpaces" TargetType="Rectangle">
-    <Setter Property="Panel.ZIndex" Value="1" />
     <Setter Property="Height" Value="{Binding Path=ActualHeight, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='.125'}" />
     <Setter Property="Width" Value="{Binding Path=ActualWidth, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='.125'}" />
     <Style.Triggers>
@@ -45,13 +45,6 @@
     <Style.Triggers>
       <DataTrigger Binding="{Binding IsSelected}" Value="True">
         <Setter Property="BorderBrush" Value="DarkRed" />
-      </DataTrigger>
-      <DataTrigger Binding="{Binding IsMovableSpace}" Value="True">
-        <Setter Property="AllowDrop" Value="True" />
-        <Setter Property="cal:Message.Attach" Value="[Event Drop] = [Action MovePiece($dataContext)]" />
-        <Setter Property="Background" Value="#BFE843"/>
-        <Setter Property="BorderThickness" Value="0" />
-        <Setter Property="Opacity" Value=".7" />
       </DataTrigger>
     </Style.Triggers>
   </Style>
@@ -85,7 +78,7 @@
     </Style.Triggers>
   </Style>
 
-  <ControlTemplate x:Key="DraggingPiece">
+  <!--<ControlTemplate x:Key="DraggingPiece">
     <Grid Style="{StaticResource ImageGrid}"
           Canvas.Left="{Binding Path=ActualWidth, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='0'}"
           Canvas.Top="{Binding Path=ActualHeight, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='0'}">
@@ -99,221 +92,221 @@
         <Image Source="{Binding Path=ImagePath, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource PieceStyle}" />
       </Border>
     </Grid>
-  </ControlTemplate>
-  
+  </ControlTemplate>-->
+
   <!--Main template for the Board Canvas-->
   <ControlTemplate x:Key="BoardDrawing">
     <Canvas Name="ChessBoard" Width="{Binding Path=ActualHeight, ElementName=ChessBoard}">
       <!--First Row-->
-      <Rectangle Style="{StaticResource LightSpaces}"
+      <Rectangle Style="{StaticResource LightSpaces}" Panel.ZIndex="2"
                            Canvas.Left="{Binding Path=ActualWidth, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='0'}"
-                           Canvas.Top="{Binding Path=ActualHeight, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='0'}"  />
-      <Rectangle Style="{StaticResource DarkSpaces}"
+                           Canvas.Top="{Binding Path=ActualHeight, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='0'}" />
+      <Rectangle Style="{StaticResource DarkSpaces}" Panel.ZIndex="2"
                            Canvas.Left="{Binding Path=ActualWidth, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='.125'}"
                            Canvas.Top="{Binding Path=ActualHeight, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='0'}" />
-      <Rectangle Style="{StaticResource LightSpaces}"
+      <Rectangle Style="{StaticResource LightSpaces}" Panel.ZIndex="2"
                            Canvas.Left="{Binding Path=ActualWidth, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='.25'}"
                            Canvas.Top="{Binding Path=ActualHeight, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='0'}"  />
-      <Rectangle Style="{StaticResource DarkSpaces}"
+      <Rectangle Style="{StaticResource DarkSpaces}" Panel.ZIndex="2"
                            Canvas.Left="{Binding Path=ActualWidth, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='.375'}"
                            Canvas.Top="{Binding Path=ActualHeight, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='0'}" />
-      <Rectangle Style="{StaticResource LightSpaces}"
+      <Rectangle Style="{StaticResource LightSpaces}" Panel.ZIndex="2"
                            Canvas.Left="{Binding Path=ActualWidth, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='.5'}"
                            Canvas.Top="{Binding Path=ActualHeight, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='0'}"  />
-      <Rectangle Style="{StaticResource DarkSpaces}"
+      <Rectangle Style="{StaticResource DarkSpaces}" Panel.ZIndex="2"
                            Canvas.Left="{Binding Path=ActualWidth, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='.625'}"
                            Canvas.Top="{Binding Path=ActualHeight, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='0'}" />
-      <Rectangle Style="{StaticResource LightSpaces}"
+      <Rectangle Style="{StaticResource LightSpaces}" Panel.ZIndex="2"
                            Canvas.Left="{Binding Path=ActualWidth, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='.75'}"
                            Canvas.Top="{Binding Path=ActualHeight, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='0'}"  />
-      <Rectangle Style="{StaticResource DarkSpaces}"
+      <Rectangle Style="{StaticResource DarkSpaces}" Panel.ZIndex="2"
                            Canvas.Left="{Binding Path=ActualWidth, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='.875'}"
                            Canvas.Top="{Binding Path=ActualHeight, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='0'}" />
 
       <!--Second Row-->
-      <Rectangle Style="{StaticResource DarkSpaces}"
+      <Rectangle Style="{StaticResource DarkSpaces}" Panel.ZIndex="2"
                            Canvas.Left="{Binding Path=ActualWidth, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='0'}"
                            Canvas.Top="{Binding Path=ActualHeight, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='.125'}"  />
-      <Rectangle Style="{StaticResource LightSpaces}"
+      <Rectangle Style="{StaticResource LightSpaces}" Panel.ZIndex="2"
                            Canvas.Left="{Binding Path=ActualWidth, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='.125'}"
                            Canvas.Top="{Binding Path=ActualHeight, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='.125'}" />
-      <Rectangle Style="{StaticResource DarkSpaces}"
+      <Rectangle Style="{StaticResource DarkSpaces}" Panel.ZIndex="2"
                            Canvas.Left="{Binding Path=ActualWidth, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='.25'}"
                            Canvas.Top="{Binding Path=ActualHeight, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='.125'}"  />
-      <Rectangle Style="{StaticResource LightSpaces}"
+      <Rectangle Style="{StaticResource LightSpaces}" Panel.ZIndex="2"
                            Canvas.Left="{Binding Path=ActualWidth, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='.375'}"
                            Canvas.Top="{Binding Path=ActualHeight, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='.125'}" />
-      <Rectangle Style="{StaticResource DarkSpaces}"
+      <Rectangle Style="{StaticResource DarkSpaces}" Panel.ZIndex="2"
                            Canvas.Left="{Binding Path=ActualWidth, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='.5'}"
                            Canvas.Top="{Binding Path=ActualHeight, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='.125'}"  />
-      <Rectangle Style="{StaticResource LightSpaces}"
+      <Rectangle Style="{StaticResource LightSpaces}" Panel.ZIndex="2"
                            Canvas.Left="{Binding Path=ActualWidth, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='.625'}"
                            Canvas.Top="{Binding Path=ActualHeight, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='.125'}" />
-      <Rectangle Style="{StaticResource DarkSpaces}"
+      <Rectangle Style="{StaticResource DarkSpaces}" Panel.ZIndex="2"
                            Canvas.Left="{Binding Path=ActualWidth, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='.75'}"
                            Canvas.Top="{Binding Path=ActualHeight, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='.125'}"  />
-      <Rectangle Style="{StaticResource LightSpaces}"
+      <Rectangle Style="{StaticResource LightSpaces}" Panel.ZIndex="2"
                            Canvas.Left="{Binding Path=ActualWidth, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='.875'}"
                            Canvas.Top="{Binding Path=ActualHeight, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='.125'}" />
 
       <!--Third Row-->
-      <Rectangle Style="{StaticResource LightSpaces}"
+      <Rectangle Style="{StaticResource LightSpaces}" Panel.ZIndex="2"
                            Canvas.Left="{Binding Path=ActualWidth, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='0'}"
                            Canvas.Top="{Binding Path=ActualHeight, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='.25'}"  />
-      <Rectangle Style="{StaticResource DarkSpaces}"
+      <Rectangle Style="{StaticResource DarkSpaces}" Panel.ZIndex="2"
                            Canvas.Left="{Binding Path=ActualWidth, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='.125'}"
                            Canvas.Top="{Binding Path=ActualHeight, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='.25'}" />
-      <Rectangle Style="{StaticResource LightSpaces}"
+      <Rectangle Style="{StaticResource LightSpaces}" Panel.ZIndex="2"
                            Canvas.Left="{Binding Path=ActualWidth, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='.25'}"
                            Canvas.Top="{Binding Path=ActualHeight, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='.25'}"  />
-      <Rectangle Style="{StaticResource DarkSpaces}"
+      <Rectangle Style="{StaticResource DarkSpaces}" Panel.ZIndex="2"
                            Canvas.Left="{Binding Path=ActualWidth, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='.375'}"
                            Canvas.Top="{Binding Path=ActualHeight, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='.25'}" />
-      <Rectangle Style="{StaticResource LightSpaces}"
+      <Rectangle Style="{StaticResource LightSpaces}" Panel.ZIndex="2"
                            Canvas.Left="{Binding Path=ActualWidth, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='.5'}"
                            Canvas.Top="{Binding Path=ActualHeight, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='.25'}"  />
-      <Rectangle Style="{StaticResource DarkSpaces}"
+      <Rectangle Style="{StaticResource DarkSpaces}" Panel.ZIndex="2"
                            Canvas.Left="{Binding Path=ActualWidth, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='.625'}"
                            Canvas.Top="{Binding Path=ActualHeight, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='.25'}" />
-      <Rectangle Style="{StaticResource LightSpaces}"
+      <Rectangle Style="{StaticResource LightSpaces}" Panel.ZIndex="2"
                            Canvas.Left="{Binding Path=ActualWidth, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='.75'}"
                            Canvas.Top="{Binding Path=ActualHeight, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='.25'}"  />
-      <Rectangle Style="{StaticResource DarkSpaces}"
+      <Rectangle Style="{StaticResource DarkSpaces}" Panel.ZIndex="2"
                            Canvas.Left="{Binding Path=ActualWidth, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='.875'}"
                            Canvas.Top="{Binding Path=ActualHeight, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='.25'}" />
 
       <!--Fourth Row-->
-      <Rectangle Style="{StaticResource DarkSpaces}"
+      <Rectangle Style="{StaticResource DarkSpaces}" Panel.ZIndex="2"
                            Canvas.Left="{Binding Path=ActualWidth, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='0'}"
                            Canvas.Top="{Binding Path=ActualHeight, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='.375'}"  />
-      <Rectangle Style="{StaticResource LightSpaces}"
+      <Rectangle Style="{StaticResource LightSpaces}" Panel.ZIndex="2"
                            Canvas.Left="{Binding Path=ActualWidth, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='.125'}"
                            Canvas.Top="{Binding Path=ActualHeight, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='.375'}" />
-      <Rectangle Style="{StaticResource DarkSpaces}"
+      <Rectangle Style="{StaticResource DarkSpaces}" Panel.ZIndex="2"
                            Canvas.Left="{Binding Path=ActualWidth, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='.25'}"
                            Canvas.Top="{Binding Path=ActualHeight, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='.375'}"  />
-      <Rectangle Style="{StaticResource LightSpaces}"
+      <Rectangle Style="{StaticResource LightSpaces}" Panel.ZIndex="2"
                            Canvas.Left="{Binding Path=ActualWidth, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='.375'}"
                            Canvas.Top="{Binding Path=ActualHeight, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='.375'}" />
-      <Rectangle Style="{StaticResource DarkSpaces}"
+      <Rectangle Style="{StaticResource DarkSpaces}" Panel.ZIndex="2"
                            Canvas.Left="{Binding Path=ActualWidth, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='.5'}"
                            Canvas.Top="{Binding Path=ActualHeight, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='.375'}"  />
-      <Rectangle Style="{StaticResource LightSpaces}"
+      <Rectangle Style="{StaticResource LightSpaces}" Panel.ZIndex="2"
                            Canvas.Left="{Binding Path=ActualWidth, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='.625'}"
                            Canvas.Top="{Binding Path=ActualHeight, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='.375'}" />
-      <Rectangle Style="{StaticResource DarkSpaces}"
+      <Rectangle Style="{StaticResource DarkSpaces}" Panel.ZIndex="2"
                            Canvas.Left="{Binding Path=ActualWidth, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='.75'}"
                            Canvas.Top="{Binding Path=ActualHeight, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='.375'}"  />
-      <Rectangle Style="{StaticResource LightSpaces}"
+      <Rectangle Style="{StaticResource LightSpaces}" Panel.ZIndex="2"
                            Canvas.Left="{Binding Path=ActualWidth, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='.875'}"
                            Canvas.Top="{Binding Path=ActualHeight, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='.375'}" />
 
       <!--Fifth Row-->
-      <Rectangle Style="{StaticResource LightSpaces}"
+      <Rectangle Style="{StaticResource LightSpaces}" Panel.ZIndex="2"
                            Canvas.Left="{Binding Path=ActualWidth, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='0'}"
                            Canvas.Top="{Binding Path=ActualHeight, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='.5'}"  />
-      <Rectangle Style="{StaticResource DarkSpaces}"
+      <Rectangle Style="{StaticResource DarkSpaces}" Panel.ZIndex="2"
                            Canvas.Left="{Binding Path=ActualWidth, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='.125'}"
                            Canvas.Top="{Binding Path=ActualHeight, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='.5'}" />
-      <Rectangle Style="{StaticResource LightSpaces}"
+      <Rectangle Style="{StaticResource LightSpaces}" Panel.ZIndex="2"
                            Canvas.Left="{Binding Path=ActualWidth, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='.25'}"
                            Canvas.Top="{Binding Path=ActualHeight, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='.5'}"  />
-      <Rectangle Style="{StaticResource DarkSpaces}"
+      <Rectangle Style="{StaticResource DarkSpaces}" Panel.ZIndex="2"
                            Canvas.Left="{Binding Path=ActualWidth, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='.375'}"
                            Canvas.Top="{Binding Path=ActualHeight, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='.5'}" />
-      <Rectangle Style="{StaticResource LightSpaces}"
+      <Rectangle Style="{StaticResource LightSpaces}" Panel.ZIndex="2"
                            Canvas.Left="{Binding Path=ActualWidth, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='.5'}"
                            Canvas.Top="{Binding Path=ActualHeight, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='.5'}"  />
-      <Rectangle Style="{StaticResource DarkSpaces}"
+      <Rectangle Style="{StaticResource DarkSpaces}" Panel.ZIndex="2"
                            Canvas.Left="{Binding Path=ActualWidth, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='.625'}"
                            Canvas.Top="{Binding Path=ActualHeight, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='.5'}" />
-      <Rectangle Style="{StaticResource LightSpaces}"
+      <Rectangle Style="{StaticResource LightSpaces}" Panel.ZIndex="2"
                            Canvas.Left="{Binding Path=ActualWidth, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='.75'}"
                            Canvas.Top="{Binding Path=ActualHeight, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='.5'}"  />
-      <Rectangle Style="{StaticResource DarkSpaces}"
+      <Rectangle Style="{StaticResource DarkSpaces}" Panel.ZIndex="2"
                            Canvas.Left="{Binding Path=ActualWidth, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='.875'}"
                            Canvas.Top="{Binding Path=ActualHeight, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='.5'}" />
 
       <!--Sixth Row-->
-      <Rectangle Style="{StaticResource DarkSpaces}"
+      <Rectangle Style="{StaticResource DarkSpaces}" Panel.ZIndex="2"
                            Canvas.Left="{Binding Path=ActualWidth, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='0'}"
                            Canvas.Top="{Binding Path=ActualHeight, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='.625'}"  />
-      <Rectangle Style="{StaticResource LightSpaces}"
+      <Rectangle Style="{StaticResource LightSpaces}" Panel.ZIndex="2"
                            Canvas.Left="{Binding Path=ActualWidth, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='.125'}"
                            Canvas.Top="{Binding Path=ActualHeight, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='.625'}" />
-      <Rectangle Style="{StaticResource DarkSpaces}"
+      <Rectangle Style="{StaticResource DarkSpaces}" Panel.ZIndex="2"
                            Canvas.Left="{Binding Path=ActualWidth, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='.25'}"
                            Canvas.Top="{Binding Path=ActualHeight, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='.625'}"  />
-      <Rectangle Style="{StaticResource LightSpaces}"
+      <Rectangle Style="{StaticResource LightSpaces}" Panel.ZIndex="2"
                            Canvas.Left="{Binding Path=ActualWidth, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='.375'}"
                            Canvas.Top="{Binding Path=ActualHeight, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='.625'}" />
-      <Rectangle Style="{StaticResource DarkSpaces}"
+      <Rectangle Style="{StaticResource DarkSpaces}" Panel.ZIndex="2"
                            Canvas.Left="{Binding Path=ActualWidth, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='.5'}"
                            Canvas.Top="{Binding Path=ActualHeight, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='.625'}"  />
-      <Rectangle Style="{StaticResource LightSpaces}"
+      <Rectangle Style="{StaticResource LightSpaces}" Panel.ZIndex="2"
                            Canvas.Left="{Binding Path=ActualWidth, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='.625'}"
                            Canvas.Top="{Binding Path=ActualHeight, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='.625'}" />
-      <Rectangle Style="{StaticResource DarkSpaces}"
+      <Rectangle Style="{StaticResource DarkSpaces}" Panel.ZIndex="2"
                            Canvas.Left="{Binding Path=ActualWidth, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='.75'}"
                            Canvas.Top="{Binding Path=ActualHeight, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='.625'}"  />
-      <Rectangle Style="{StaticResource LightSpaces}"
+      <Rectangle Style="{StaticResource LightSpaces}" Panel.ZIndex="2"
                            Canvas.Left="{Binding Path=ActualWidth, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='.875'}"
                            Canvas.Top="{Binding Path=ActualHeight, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='.625'}" />
 
       <!--Seventh Row-->
-      <Rectangle Style="{StaticResource LightSpaces}"
+      <Rectangle Style="{StaticResource LightSpaces}" Panel.ZIndex="2"
                            Canvas.Left="{Binding Path=ActualWidth, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='0'}"
                            Canvas.Top="{Binding Path=ActualHeight, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='.75'}"  />
-      <Rectangle Style="{StaticResource DarkSpaces}"
+      <Rectangle Style="{StaticResource DarkSpaces}" Panel.ZIndex="2"
                            Canvas.Left="{Binding Path=ActualWidth, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='.125'}"
                            Canvas.Top="{Binding Path=ActualHeight, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='.75'}" />
-      <Rectangle Style="{StaticResource LightSpaces}"
+      <Rectangle Style="{StaticResource LightSpaces}" Panel.ZIndex="2"
                            Canvas.Left="{Binding Path=ActualWidth, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='.25'}"
                            Canvas.Top="{Binding Path=ActualHeight, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='.75'}"  />
-      <Rectangle Style="{StaticResource DarkSpaces}"
+      <Rectangle Style="{StaticResource DarkSpaces}" Panel.ZIndex="2"
                            Canvas.Left="{Binding Path=ActualWidth, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='.375'}"
                            Canvas.Top="{Binding Path=ActualHeight, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='.75'}" />
-      <Rectangle Style="{StaticResource LightSpaces}"
+      <Rectangle Style="{StaticResource LightSpaces}" Panel.ZIndex="2"
                            Canvas.Left="{Binding Path=ActualWidth, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='.5'}"
                            Canvas.Top="{Binding Path=ActualHeight, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='.75'}"  />
-      <Rectangle Style="{StaticResource DarkSpaces}"
+      <Rectangle Style="{StaticResource DarkSpaces}" Panel.ZIndex="2"
                            Canvas.Left="{Binding Path=ActualWidth, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='.625'}"
                            Canvas.Top="{Binding Path=ActualHeight, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='.75'}" />
-      <Rectangle Style="{StaticResource LightSpaces}"
+      <Rectangle Style="{StaticResource LightSpaces}" Panel.ZIndex="2"
                            Canvas.Left="{Binding Path=ActualWidth, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='.75'}"
                            Canvas.Top="{Binding Path=ActualHeight, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='.75'}"  />
-      <Rectangle Style="{StaticResource DarkSpaces}"
+      <Rectangle Style="{StaticResource DarkSpaces}" Panel.ZIndex="2"
                            Canvas.Left="{Binding Path=ActualWidth, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='.875'}"
                            Canvas.Top="{Binding Path=ActualHeight, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='.75'}" />
 
       <!--Eighth Row-->
-      <Rectangle Style="{StaticResource DarkSpaces}"
+      <Rectangle Style="{StaticResource DarkSpaces}" Panel.ZIndex="2"
                            Canvas.Left="{Binding Path=ActualWidth, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='0'}"
                            Canvas.Top="{Binding Path=ActualHeight, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='.875'}"  />
-      <Rectangle Style="{StaticResource LightSpaces}"
+      <Rectangle Style="{StaticResource LightSpaces}" Panel.ZIndex="2"
                            Canvas.Left="{Binding Path=ActualWidth, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='.125'}"
                            Canvas.Top="{Binding Path=ActualHeight, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='.875'}" />
-      <Rectangle Style="{StaticResource DarkSpaces}"
+      <Rectangle Style="{StaticResource DarkSpaces}" Panel.ZIndex="2"
                            Canvas.Left="{Binding Path=ActualWidth, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='.25'}"
                            Canvas.Top="{Binding Path=ActualHeight, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='.875'}"  />
-      <Rectangle Style="{StaticResource LightSpaces}"
+      <Rectangle Style="{StaticResource LightSpaces}" Panel.ZIndex="2"
                            Canvas.Left="{Binding Path=ActualWidth, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='.375'}"
                            Canvas.Top="{Binding Path=ActualHeight, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='.875'}" />
-      <Rectangle Style="{StaticResource DarkSpaces}"
+      <Rectangle Style="{StaticResource DarkSpaces}" Panel.ZIndex="2"
                            Canvas.Left="{Binding Path=ActualWidth, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='.5'}"
                            Canvas.Top="{Binding Path=ActualHeight, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='.875'}"  />
-      <Rectangle Style="{StaticResource LightSpaces}"
+      <Rectangle Style="{StaticResource LightSpaces}" Panel.ZIndex="2"
                            Canvas.Left="{Binding Path=ActualWidth, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='.625'}"
                            Canvas.Top="{Binding Path=ActualHeight, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='.875'}" />
-      <Rectangle Style="{StaticResource DarkSpaces}"
+      <Rectangle Style="{StaticResource DarkSpaces}" Panel.ZIndex="2"
                            Canvas.Left="{Binding Path=ActualWidth, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='.75'}"
                            Canvas.Top="{Binding Path=ActualHeight, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='.875'}"  />
-      <Rectangle Style="{StaticResource LightSpaces}"
+      <Rectangle Style="{StaticResource LightSpaces}" Panel.ZIndex="2"
                            Canvas.Left="{Binding Path=ActualWidth, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='.875'}"
                            Canvas.Top="{Binding Path=ActualHeight, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='.875'}" />
 
       <!--All Pieces (works as ContentTemplate)-->
-      <ItemsControl ItemsSource="{Binding CurrentGame.GameBoard.BoardPieces}" Panel.ZIndex="4">
+      <ItemsControl ItemsSource="{Binding CurrentGame.GameBoard.BoardPieceCollection, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Panel.ZIndex="4">
         <ItemsControl.ItemsPanel>
           <ItemsPanelTemplate>
             <Canvas />
@@ -355,9 +348,53 @@
           </DataTemplate>
         </ItemsControl.ItemTemplate>
       </ItemsControl>
-
-      <!--<Control Template="{StaticResource DraggingPiece}" DataContext="{Binding CurrentGame.GameBoard.DraggingPiece}" Panel.ZIndex="3" />-->
       
+      <!--Overlay when moves are moveable-->
+      <ItemsControl ItemsSource="{Binding CurrentGame.GameBoard.MoveableSpaces, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Panel.ZIndex="7">
+        <ItemsControl.ItemsPanel>
+          <ItemsPanelTemplate>
+            <Canvas />
+          </ItemsPanelTemplate>
+        </ItemsControl.ItemsPanel>
+        <ItemsControl.ItemContainerStyle>
+          <Style TargetType="ContentPresenter">
+            <Setter Property="Canvas.Left">
+              <Setter.Value>
+                <MultiBinding Converter="{StaticResource ImageGridPWConverter}">
+                  <Binding Path="ActualWidth" ElementName="ChessBoard" />
+                  <Binding Path="LeftLocationModifier" UpdateSourceTrigger="PropertyChanged" NotifyOnSourceUpdated="True" />
+                </MultiBinding>
+              </Setter.Value>
+            </Setter>
+            <Setter Property="Canvas.Top">
+              <Setter.Value>
+                <MultiBinding Converter="{StaticResource ImageGridPWConverter}">
+                  <Binding Path="ActualHeight" ElementName="ChessBoard" />
+                  <Binding Path="TopLocationModifier" UpdateSourceTrigger="PropertyChanged" NotifyOnSourceUpdated="True" />
+                </MultiBinding>
+              </Setter.Value>
+            </Setter>
+          </Style>
+        </ItemsControl.ItemContainerStyle>
+        <ItemsControl.ItemTemplate>
+          <DataTemplate>
+            <Rectangle>
+              <Rectangle.Style>
+                <Style TargetType="Rectangle">
+                  <Setter Property="Height" Value="{Binding Path=ActualHeight, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='.125'}" />
+                  <Setter Property="Width" Value="{Binding Path=ActualWidth, ElementName=ChessBoard, Converter={converters:PercentageWidthConverter}, ConverterParameter='.125'}" />
+                  <Setter Property="AllowDrop" Value="True" />
+                  <Setter Property="cal:Message.Attach" Value="[Event Drop] = [Action MovePiece($dataContext)]" />
+                  <Setter Property="Fill" Value="#BFE843"/>
+                  <Setter Property="Opacity" Value=".5" />
+                </Style>
+              </Rectangle.Style>
+            </Rectangle>
+          </DataTemplate>
+        </ItemsControl.ItemTemplate>
+      </ItemsControl>
+      <!--<Control Template="{StaticResource DraggingPiece}" DataContext="{Binding CurrentGame.GameBoard.DraggingPiece}" Panel.ZIndex="8" />-->
+
     </Canvas>
   </ControlTemplate>
 </ResourceDictionary>

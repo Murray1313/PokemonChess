@@ -1,10 +1,7 @@
 ﻿using Entities.Interfaces;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Caliburn.Micro;
+using System;
 
 namespace Entities.EntityModels.Pieces
 {
@@ -75,6 +72,14 @@ namespace Entities.EntityModels.Pieces
     public SharedEnums.Enums.TeamType PokemonType { get { return SharedEnums.Enums.TeamType.None; } }
 
     public SharedEnums.Enums.Pieces ChessPieceType { get { return SharedEnums.Enums.Pieces.NA; } }
+
+    public IEnumerable<Location> GetMovableSpaces(Board board, IPiece piece) { return null; }
+
+    public void SetMovableSpaces(Board board, IPiece piece) { }
+
+    public IEnumerable<Location> GetMovableSpaces(Board board) { return null; }
+
+    public void SetMovableSpaces(Board board) { }
     #endregion
   }
 }

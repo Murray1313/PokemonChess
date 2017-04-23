@@ -8,6 +8,7 @@ namespace Entities.Interfaces
 {
   public interface IMoveMechanics
   {
-    void SetMovableSpaces(Board board, IPiece piece);
+    IEnumerable<Location> GetMovableSpaces(Board board);
+    void SetMovableSpaces(Board board);
   }
 }

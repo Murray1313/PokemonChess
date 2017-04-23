@@ -2,13 +2,14 @@
 using Entities.Interfaces;
 using Entities.SharedEnums;
 using Caliburn.Micro;
+using System.Collections.Generic;
 
 namespace Entities.EntityModels.Pieces
 {
   public abstract class ChessPiece : PropertyChangedBase, IPiece
   {
     #region private
-    private bool _isMoveableSpace;
+    //private bool _isMoveableSpace;
     private bool _isSelected;
     private Location _location;
     #endregion
@@ -16,7 +17,7 @@ namespace Entities.EntityModels.Pieces
     #region Constructor(s)
     public ChessPiece(Enums.BlackOrWhite teamSide, int arrayLocation)
     {
-      this.IsMovableSpace = false;
+      //this.IsMovableSpace = false;
       this.IsSelected = false;
       this.Location = new Location(arrayLocation);
       this.Side = teamSide;
@@ -24,7 +25,7 @@ namespace Entities.EntityModels.Pieces
 
     public ChessPiece(Enums.BlackOrWhite teamSide)
     {
-      this.IsMovableSpace = false;
+      //this.IsMovableSpace = false;
       this.IsSelected = false;
       this.Side = teamSide;
     }
@@ -32,16 +33,6 @@ namespace Entities.EntityModels.Pieces
 
 
     #region Standard Properties
-    public bool IsMovableSpace
-    {
-      get { return _isMoveableSpace; }
-      set
-      {
-        _isMoveableSpace = value;
-        NotifyOfPropertyChange(() => IsMovableSpace);
-      }
-    }
-
     public bool IsSelected
     {
       get { return _isSelected; }
@@ -66,7 +57,7 @@ namespace Entities.EntityModels.Pieces
     #endregion
 
 
-    #region Abstract Properties
+    #region Abstract
     public abstract Enums.Pieces ChessPieceType { get; }
 
     public abstract string ImagePath { get; }
@@ -76,6 +67,10 @@ namespace Entities.EntityModels.Pieces
     public abstract string Name { get; }
 
     public abstract Enums.TeamType PokemonType { get; }
+
+    public abstract IEnumerable<Location> GetMovableSpaces(Board board);
+
+    public abstract void SetMovableSpaces(Board board);
     #endregion
   }
 }

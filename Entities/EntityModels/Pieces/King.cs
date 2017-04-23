@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using PokemonChess;
 using Entities.SharedEnums;
+using System;
 
 namespace Entities.EntityModels.Pieces
 {
-  public abstract class King : ChessPiece, IMoveMechanics
+  public abstract class King : ChessPiece
   {
     public King(Enums.BlackOrWhite teamSide, int arrayLocation) : base(teamSide, arrayLocation) { }
 
@@ -18,30 +19,30 @@ namespace Entities.EntityModels.Pieces
     public override Enums.Pieces ChessPieceType { get { return Enums.Pieces.King; } }
 
     #region IMoveMech implementation
-    public IEnumerable<Location> GetKingMovableSpaces(Board board, IPiece piece)
+    public override IEnumerable<Location> GetMovableSpaces(Board board)
     {
       List<Location> returnList = new List<Location>();
-      General.GetLeft(board, piece.Location, piece.Side, returnList);
-      General.GetUp(board, piece.Location, piece.Side, returnList);
-      General.GetRight(board, piece.Location, piece.Side, returnList);
-      General.GetDown(board, piece.Location, piece.Side, returnList);
-      General.GetUpperLeft(board, piece.Location, piece.Side, returnList);
-      General.GetUpperRight(board, piece.Location, piece.Side, returnList);
-      General.GetLowerLeft(board, piece.Location, piece.Side, returnList);
-      General.GetLowerRight(board, piece.Location, piece.Side, returnList);
+      General.GetLeft(board, this.Location, this.Side, returnList);
+      General.GetUp(board, this.Location, this.Side, returnList);
+      General.GetRight(board, this.Location, this.Side, returnList);
+      General.GetDown(board, this.Location, this.Side, returnList);
+      General.GetUpperLeft(board, this.Location, this.Side, returnList);
+      General.GetUpperRight(board, this.Location, this.Side, returnList);
+      General.GetLowerLeft(board, this.Location, this.Side, returnList);
+      General.GetLowerRight(board, this.Location, this.Side, returnList);
       return returnList;
     }
 
-    public void SetMovableSpaces(Board board, IPiece piece)
+    public override void SetMovableSpaces(Board board)
     {
-      General.SetLeft(board, piece.Location, piece.Side);
-      General.SetUp(board, piece.Location, piece.Side);
-      General.SetRight(board, piece.Location, piece.Side);
-      General.SetDown(board, piece.Location, piece.Side);
-      General.SetUpperLeft(board, piece.Location, piece.Side);
-      General.SetUpperRight(board, piece.Location, piece.Side);
-      General.SetLowerLeft(board, piece.Location, piece.Side);
-      General.SetLowerRight(board, piece.Location, piece.Side);
+      General.SetLeft(board, this.Location, this.Side);
+      General.SetUp(board, this.Location, this.Side);
+      General.SetRight(board, this.Location, this.Side);
+      General.SetDown(board, this.Location, this.Side);
+      General.SetUpperLeft(board, this.Location, this.Side);
+      General.SetUpperRight(board, this.Location, this.Side);
+      General.SetLowerLeft(board, this.Location, this.Side);
+      General.SetLowerRight(board, this.Location, this.Side);
     }
     #endregion
   }

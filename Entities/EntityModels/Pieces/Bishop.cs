@@ -1,16 +1,11 @@
 ﻿using Entities.Interfaces;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Caliburn.Micro;
 using PokemonChess;
 using Entities.SharedEnums;
 
 namespace Entities.EntityModels.Pieces
 {
-  public abstract class Bishop : ChessPiece, IMoveMechanics
+  public abstract class Bishop : ChessPiece
   {
     public Bishop(Enums.BlackOrWhite teamSide, int arrayLocation) : base(teamSide, arrayLocation) { }
     public Bishop(Enums.BlackOrWhite teamSide, Enums.BoardColumns pieceSide) : base(teamSide)
@@ -22,22 +17,22 @@ namespace Entities.EntityModels.Pieces
     public override Enums.Pieces ChessPieceType { get { return Enums.Pieces.Bishop; } }
 
     #region IMoveMech Implementation
-    public IEnumerable<Location> GetBishopsConquerableSpaces(Board board, IPiece piece)
+    public override IEnumerable<Location> GetMovableSpaces(Board board)
     {
       List<Location> returnList = new List<Location>();
-      General.RecursiveGetUpperLeft(board, piece.Location, piece.Side, returnList);
-      General.RecursiveGetUpperRight(board, piece.Location, piece.Side, returnList);
-      General.RecursiveGetLowerLeft(board, piece.Location, piece.Side, returnList);
-      General.RecursiveGetLowerRight(board, piece.Location, piece.Side, returnList);
+      General.RecursiveGetUpperLeft(board, this.Location, this.Side, returnList);
+      General.RecursiveGetUpperRight(board, this.Location, this.Side, returnList);
+      General.RecursiveGetLowerLeft(board, this.Location, this.Side, returnList);
+      General.RecursiveGetLowerRight(board, this.Location, this.Side, returnList);
       return returnList;
     }
 
-    public void SetMovableSpaces(Board board, IPiece piece)
+    public override void SetMovableSpaces(Board board)
     {
-      General.RecursiveSetUpperLeft(board, piece.Location, piece.Side);
-      General.RecursiveSetUpperRight(board, piece.Location, piece.Side);
-      General.RecursiveSetLowerLeft(board, piece.Location, piece.Side);
-      General.RecursiveSetLowerRight(board, piece.Location, piece.Side);
+      General.RecursiveSetUpperLeft(board, this.Location, this.Side);
+      General.RecursiveSetUpperRight(board, this.Location, this.Side);
+      General.RecursiveSetLowerLeft(board, this.Location, this.Side);
+      General.RecursiveSetLowerRight(board, this.Location, this.Side);
     }
     #endregion
   }
